@@ -14,8 +14,5 @@ pre_erlang_get_and_update_deps() {
   if [ "$TARGET_MIX_ENV" = "prod" ]; then
     status "Copying '$_local_secret_config_file' file to build host"
     scp "$_prod_secret_path" "$BUILD_USER@$BUILD_HOST:$BUILD_AT/config/prod.secret.exs"
-    # __sync_remote "
-    #   ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
-    # "
   fi
 }
