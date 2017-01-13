@@ -1,0 +1,21 @@
+APP="lyceum"
+
+BUILD_HOST="192.168.15.26"
+BUILD_USER="vagrant"
+BUILD_AT="/vagrant/build"
+
+STAGING_HOSTS="stage.myapp.com"
+STAGING_USER="web"
+DELIVER_TO="/home/web"
+
+# For *Phoenix* projects, symlink prod.secret.exs to our tmp source
+pre_erlang_get_and_update_deps() {
+  local _prod_secret_path="/Users/sohjiro/workspace/lyceum/config/prod.secret.exs"
+  if [ "$TARGET_MIX_ENV" = "prod" ]; then
+    status "Copying '$_local_secret_config_file' file to build host"
+    scp "$_prod_secret_path" "$BUILD_USER@$BUILD_HOST:$BUILD_AT/config/prod.secret.exs"
+    # __sync_remote "
+    #   ln -sfn '$_prod_secret_path' '$BUILD_AT/config/prod.secret.exs'
+    # "
+  fi
+}
