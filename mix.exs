@@ -35,7 +35,10 @@ defmodule Lyceum.Mixfile do
      {:phoenix_ecto, "~> 3.0"},
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:edeliver, "~> 1.4.0"},
+     {:distillery, "~> 1.0", warn_missing: false, runtime: false},
+   ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
