@@ -1,6 +1,10 @@
 defmodule Lyceum.EventView do
   use Lyceum.Web, :view
 
+  def render("index.json", %{events: events}) do
+    %{events: render_many(events, Lyceum.EventView, "event.json")}
+  end
+
   def render("show.json", %{event: event}) do
     %{event: render_one(event, Lyceum.EventView, "event.json")}
   end
