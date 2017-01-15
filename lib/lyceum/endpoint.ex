@@ -36,5 +36,6 @@ defmodule Lyceum.Endpoint do
     key: "_lyceum_key",
     signing_salt: "mU9lvbOR"
 
+  plug CORSPlug
   plug Lyceum.Router
 end

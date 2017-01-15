@@ -38,6 +38,7 @@ defmodule Lyceum.Mixfile do
      {:cowboy, "~> 1.0"},
      {:edeliver, "~> 1.4.0"},
      {:distillery, "~> 1.0", warn_missing: false, runtime: false},
+     {:cors_plug, "~> 1.1"}
    ]
   end
 
