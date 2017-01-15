@@ -5,7 +5,9 @@ defmodule Lyceum.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", Lyceum do
+  scope "/api/v1", Lyceum do
     pipe_through :api
+
+    resources "/events", EventController, only: [:create]
   end
 end
