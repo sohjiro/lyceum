@@ -4,7 +4,6 @@ defmodule Lyceum.Core.EventTest do
   alias Lyceum.Core.Event
 
   describe "Create an Event" do
-
     test "should create a new event" do
       params = %{"type" => "course",
                  "name" => "some course",
@@ -24,7 +23,14 @@ defmodule Lyceum.Core.EventTest do
       assert event.quorum == 10
       assert event.price == 1500.00
     end
+  end
 
+  describe "List events" do
+    test "should display all register of events" do
+      %Lyceum.Event{type: "type"} |> Repo.insert!
+
+      assert length(Event.list) == 1
+    end
   end
 
 end
