@@ -3,6 +3,10 @@ defmodule Lyceum.EventController do
 
   alias Lyceum.Core.Event
 
+  def index(conn, _params) do
+    render(conn, "index.json", events: Event.list())
+  end
+
   def create(conn, %{"event" => event_params}) do
     with {:ok, event} <- Event.create(event_params) do
       conn
