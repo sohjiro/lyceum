@@ -16,7 +16,7 @@ defmodule Lyceum.EventController do
       _ ->
         conn
         |> put_status(:bad_request)
-        |> json(%{code: "LYC-0001", message: "Bad parameters"})
+        |> json(%{errors: %{code: "LYC-0001", message: "Bad parameters"}})
     end
   end
 
