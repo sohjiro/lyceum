@@ -9,6 +9,8 @@ defmodule Lyceum.Event do
     field :quorum, :integer
     field :price, :float
 
+    has_many :candidates, Lyceum.Candidate
+
     timestamps()
   end
 
