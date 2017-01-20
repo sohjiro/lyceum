@@ -2,7 +2,9 @@ defmodule Lyceum.CandidateView do
   use Lyceum.Web, :view
 
   def render("show.json", %{candidate: candidate}) do
-    %{candidate: render_one(candidate, Lyceum.CandidateView, "candidate.json")}
+    %{candidate: render_one(candidate, Lyceum.CandidateView, "candidate.json"),
+      event: render_one(candidate.event, Lyceum.EventView, "event.json")
+    }
   end
 
   def render("candidate.json", %{candidate: candidate}) do
