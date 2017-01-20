@@ -6,7 +6,6 @@ defmodule Lyceum.Repo.Migrations.CreateCandidate do
       add :name, :string
       add :degree, :string
       add :email, :string
-      add :phone, :string
       add :telephone, :string
       add :observations, :string
       add :event_id, references(:events, on_delete: :nothing)
@@ -14,6 +13,7 @@ defmodule Lyceum.Repo.Migrations.CreateCandidate do
       timestamps()
     end
     create index(:candidates, [:event_id])
+    create unique_index(:candidates, [:email])
 
   end
 end
