@@ -38,6 +38,20 @@ defmodule Lyceum.Core.CandidateTest do
 
       assert length(candidates) == 3
     end
+
+    test "should info for a specific candidate" do
+      event = %Event{type: "Course"} |> Repo.insert!
+      candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
+
+      {:ok, data} = Candidate.show_info(%{"id" => candidate.id})
+
+      assert data.name == "Name lastname"
+      assert data.degree == "Student"
+      assert data.email == "name_lastname@domain.com"
+      assert data.telephone == "1234567890"
+      assert data.observations == "This user has some observations"
+      assert data.event_id == event.id
+    end
   end
 
 end
