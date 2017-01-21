@@ -65,7 +65,7 @@ defmodule Lyceum.Core.CandidateTest do
         "observations" => "observations"
       }
 
-      {:ok, data} = Candidate.update(%{"id" => candidate.id}, params)
+      {:ok, data} = Candidate.update(%{"id" => candidate.id, "candidate" => params})
 
       assert data.name == "name"
       assert data.degree == "degree"
