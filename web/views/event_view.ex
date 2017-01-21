@@ -17,7 +17,8 @@ defmodule Lyceum.EventView do
       starting_date: event.starting_date,
       campus: event.campus,
       quorum: event.quorum,
-      price: event.price
+      price: event.price,
+      links: %{"candidates": "candidates"}
     }
   end
 
