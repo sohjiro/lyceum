@@ -3,7 +3,7 @@ defmodule Lyceum.CandidateTest do
 
   alias Lyceum.Candidate
 
-  @valid_attrs %{degree: "some content", email: "some content", name: "some content", observations: "some content", telephone: "some content", event_id: 1}
+  @valid_attrs %{degree: "some content", email: "some@content.com", name: "some content", observations: "some content", telephone: "some content", event_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
