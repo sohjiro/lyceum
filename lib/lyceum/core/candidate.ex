@@ -19,7 +19,7 @@ defmodule Lyceum.Core.Candidate do
     end
   end
 
-  def update(%{"id" => id}, params) do
+  def update(%{"id" => id, "candidate" => params}) do
     Candidate
     |> Repo.get(id)
     |> Candidate.changeset(params)
