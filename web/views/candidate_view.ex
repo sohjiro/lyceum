@@ -6,9 +6,7 @@ defmodule Lyceum.CandidateView do
   end
 
   def render("show.json", %{candidate: candidate}) do
-    %{candidate: render_one(candidate, Lyceum.CandidateView, "candidate.json"),
-      event: render_one(candidate.event, Lyceum.EventView, "event.json")
-    }
+    %{candidate: render_one(candidate, Lyceum.CandidateView, "candidate.json")}
   end
 
   def render("candidate.json", %{candidate: candidate}) do
