@@ -39,7 +39,7 @@ defmodule Lyceum.Core.CandidateTest do
       assert length(candidates) == 3
     end
 
-    test "should info for a specific candidate" do
+    test "should show info for a specific candidate" do
       event = %Event{type: "Course"} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
 
@@ -50,6 +50,28 @@ defmodule Lyceum.Core.CandidateTest do
       assert data.email == "name_lastname@domain.com"
       assert data.telephone == "1234567890"
       assert data.observations == "This user has some observations"
+      assert data.event_id == event.id
+    end
+
+    test "should update info for a specific candidate" do
+      event = %Event{type: "Course"} |> Repo.insert!
+      candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
+
+      params = %{
+        "name" => "name",
+        "degree" => "degree",
+        "email" => "email@domain.com",
+        "telephone" => "9090909090",
+        "observations" => "observations"
+      }
+
+      {:ok, data} = Candidate.update(%{"id" => candidate.id}, params)
+
+      assert data.name == "name"
+      assert data.degree == "degree"
+      assert data.email == "email@domain.com"
+      assert data.telephone == "9090909090"
+      assert data.observations == "observations"
       assert data.event_id == event.id
     end
   end
