@@ -12,9 +12,9 @@ defmodule Lyceum.Core.Candidate do
     end
   end
 
-  def create(event_id, params) do
+  def create(params) do
     Event
-    |> Repo.get(event_id)
+    |> Repo.get(params["event"])
     |> build_assoc(:candidates)
     |> Candidate.changeset(params)
     |> Repo.insert

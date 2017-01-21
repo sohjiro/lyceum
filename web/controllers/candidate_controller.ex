@@ -8,8 +8,8 @@ defmodule Lyceum.CandidateController do
     render(conn, "index.json", candidates: Candidate.list_for_event(params))
   end
 
-  def create(conn, %{"event_id" => event_id, "candidate" => params}) do
-    with {:ok, candidate} <- Candidate.create(event_id, params) do
+  def create(conn, %{"candidate" => params}) do
+    with {:ok, candidate} <- Candidate.create(params) do
       conn
       |> put_status(:created)
       |> render("show.json", candidate: Repo.preload(candidate, :event))

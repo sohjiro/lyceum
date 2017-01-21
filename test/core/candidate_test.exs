@@ -9,14 +9,15 @@ defmodule Lyceum.Core.CandidateTest do
       event = %Event{type: "Course"} |> Repo.insert!
 
       params = %{
-        name: "Name lastname",
-        degree: "Student",
-        email: "name_lastname@domain.com",
-        telephone: "1234567890",
-        observations: "This user has some observations"
+        "name" => "Name lastname",
+        "degree" => "Student",
+        "email" => "name_lastname@domain.com",
+        "telephone" => "1234567890",
+        "observations" => "This user has some observations",
+        "event" => event.id
       }
 
-      {:ok, candidate} = Candidate.create(event.id, params)
+      {:ok, candidate} = Candidate.create(params)
 
       assert candidate.id
       assert candidate.name == "Name lastname"
