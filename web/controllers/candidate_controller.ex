@@ -5,7 +5,7 @@ defmodule Lyceum.CandidateController do
   alias Lyceum.Core.Candidate
 
   def index(conn, params) do
-    render(conn, "show.json", candidate: Candidate.list_for_event(params))
+    render(conn, "index.json", candidates: Candidate.list_for_event(params))
   end
 
   def create(conn, %{"event_id" => event_id, "candidate" => params}) do
