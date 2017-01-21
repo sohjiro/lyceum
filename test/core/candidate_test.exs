@@ -25,7 +25,17 @@ defmodule Lyceum.Core.CandidateTest do
       assert candidate.telephone == "1234567890"
       assert candidate.observations == "This user has some observations"
       assert candidate.event_id == event.id
+    end
 
+    test "should list all candidates for an event" do
+      event = %Event{type: "Course"} |> Repo.insert!
+      %Lyceum.Candidate{name: "Name 1", event_id: event.id} |> Repo.insert!
+      %Lyceum.Candidate{name: "Name 2", event_id: event.id} |> Repo.insert!
+      %Lyceum.Candidate{name: "Name 3", event_id: event.id} |> Repo.insert!
+
+      candidates = Candidate.list_for_event(%{"event_id" => event.id})
+
+      assert length(candidates) == 3
     end
   end
 
