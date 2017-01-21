@@ -8,7 +8,7 @@ defmodule Lyceum.Router do
   scope "/api/v1", Lyceum do
     pipe_through :api
 
-    resources "/events", EventController, only: [:index, :create] do
+    resources "/events", EventController, only: [:index, :create, :show] do
       resources "/candidates", CandidateController, only: [:create]
     end
   end
