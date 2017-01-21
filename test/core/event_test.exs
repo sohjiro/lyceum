@@ -33,4 +33,15 @@ defmodule Lyceum.Core.EventTest do
     end
   end
 
+  describe "Display event information" do
+    test "should display data about an alreday created event" do
+      e = %Lyceum.Event{type: "type"} |> Repo.insert!
+
+      {:ok, event} = Event.show_info(%{"id" => e.id})
+
+      assert event.id == e.id
+      assert event.type == "type"
+    end
+  end
+
 end

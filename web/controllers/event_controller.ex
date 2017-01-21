@@ -7,6 +7,12 @@ defmodule Lyceum.EventController do
     render(conn, "index.json", events: Event.list())
   end
 
+  def show(conn, params) do
+    with {:ok, event} <- Event.show_info(params) do
+      render(conn, "show.json", event: event)
+    end
+  end
+
   def create(conn, %{"event" => event_params}) do
     with {:ok, event} <- Event.create(event_params) do
       conn
