@@ -19,5 +19,6 @@ defmodule Lyceum.Candidate do
     struct
     |> cast(params, [:name, :degree, :email, :telephone, :observations, :event_id])
     |> validate_required([:name, :email, :event_id])
+    |> validate_format(:email, ~r/@/)
   end
 end

@@ -13,6 +13,11 @@ defmodule Lyceum.CandidateController do
       conn
       |> put_status(:created)
       |> render("show.json", candidate: Repo.preload(candidate, :event))
+    else
+      _ ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{errors: %{code: "LYC-0001", message: "Bad parameters"}})
     end
   end
 
