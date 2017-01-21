@@ -2,7 +2,7 @@ defmodule Lyceum.Core.Event do
 
   alias Lyceum.{Repo, Event}
 
-  def list, do: Repo.all(Event)
+  def list, do: Event |> Repo.all
 
   def show_info(%{"id" => id}) do
     case Repo.get(Event, id) do
