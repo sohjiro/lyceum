@@ -9,8 +9,6 @@ defmodule Lyceum.Candidate do
     field :observations, :string
     belongs_to :event, Lyceum.Event
 
-    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.CandidateStatus
-
     timestamps()
   end
 
