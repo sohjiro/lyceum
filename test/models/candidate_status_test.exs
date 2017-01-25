@@ -3,7 +3,7 @@ defmodule Lyceum.CandidateStatusTest do
 
   alias Lyceum.CandidateStatus
 
-  @valid_attrs %{}
+  @valid_attrs %{candidate_id: 1, status_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
