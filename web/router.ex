@@ -12,5 +12,6 @@ defmodule Lyceum.Router do
       resources "/candidates", CandidateController, only: [:index]
     end
     resources "/candidates", CandidateController, only: [:create, :show, :update]
+    resources "/statuses", StatusController, only: [:index]
   end
 end
