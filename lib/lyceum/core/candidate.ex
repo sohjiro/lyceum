@@ -1,6 +1,7 @@
 defmodule Lyceum.Core.Candidate do
   import Ecto
-  alias Lyceum.{Repo, Candidate, Event, CandidateStatus}
+  alias Ecto.Multi
+  alias Lyceum.{Repo, Candidate, CandidateStatus}
 
   def list_for_event(%{"event_id" => event_id}) do
     with {:ok, event} <- Lyceum.Core.Event.show_info(%{"id" => event_id}) do
@@ -27,20 +28,20 @@ defmodule Lyceum.Core.Candidate do
   end
 
   def create(params) do
-    result = Event
-    |> Repo.get(params["event"])
-    |> build_assoc(:candidates)
-    |> Candidate.changeset(params)
-    |> Repo.insert
+    params = Map.put(params, "event_id", params["event"])
+    changeset = Candidate.changeset(%Candidate{}, params)
 
-    with {:ok, candidate} <- result,
-         {:ok, _register} <- generate_tracking(candidate, params) do
+    result = Multi.new
+    |> Multi.insert(:candidate, changeset)
+    |> Multi.run(:tracking, &generate_tracking(&1, params))
+    |> Repo.transaction
+
+    with {:ok, %{candidate: candidate}} <- result do
       {:ok, Repo.preload(candidate, :statuses)}
     end
-
   end
 
-  defp generate_tracking(candidate, params) do
+  defp generate_tracking(%{candidate: candidate}, params) do
     %CandidateStatus{}
     |> CandidateStatus.changeset(%{candidate_id: candidate.id, status_id: params["status_id"]})
     |> Repo.insert
