@@ -28,13 +28,15 @@ defmodule Lyceum.Core.Candidate do
   end
 
   def create(params) do
-    result = params
-    |> generate_changeset
-    |> execute_transaction(params["status_id"])
-
-    with {:ok, %{candidate: candidate}} <- result do
+    with {:ok, %{candidate: candidate}} <- insert(params) do
       {:ok, Repo.preload(candidate, :statuses)}
     end
+  end
+
+  defp insert(params) do
+    params
+    |> generate_changeset
+    |> execute_transaction(params["status_id"])
   end
 
   defp generate_changeset(params) do
