@@ -28,22 +28,30 @@ defmodule Lyceum.Core.Candidate do
   end
 
   def create(params) do
-    params = Map.put(params, "event_id", params["event"])
-    changeset = Candidate.changeset(%Candidate{}, params)
-
-    result = Multi.new
-    |> Multi.insert(:candidate, changeset)
-    |> Multi.run(:tracking, &generate_tracking(&1, params))
-    |> Repo.transaction
+    result = params
+    |> generate_changeset
+    |> execute_transaction(params["status_id"])
 
     with {:ok, %{candidate: candidate}} <- result do
       {:ok, Repo.preload(candidate, :statuses)}
     end
   end
 
-  defp generate_tracking(%{candidate: candidate}, params) do
+  defp generate_changeset(params) do
+    params = Map.put(params, "event_id", params["event"])
+    %Candidate{} |> Candidate.changeset(params)
+  end
+
+  defp execute_transaction(changeset, status_id) do
+    Multi.new
+    |> Multi.insert(:candidate, changeset)
+    |> Multi.run(:tracking, &generate_tracking(&1, status_id))
+    |> Repo.transaction
+  end
+
+  defp generate_tracking(%{candidate: candidate}, status_id) do
     %CandidateStatus{}
-    |> CandidateStatus.changeset(%{candidate_id: candidate.id, status_id: params["status_id"]})
+    |> CandidateStatus.changeset(%{candidate_id: candidate.id, status_id: status_id})
     |> Repo.insert
   end
 
