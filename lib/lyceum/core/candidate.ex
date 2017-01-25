@@ -30,6 +30,9 @@ defmodule Lyceum.Core.Candidate do
   def create(params) do
     with {:ok, %{candidate: candidate}} <- insert(params) do
       {:ok, Repo.preload(candidate, :statuses)}
+    else
+      _ ->
+        %{status: :bad_request, code: "LYC-0002", message: "Bad parameters"}
     end
   end
 
