@@ -1,12 +1,13 @@
 defmodule Lyceum.Core.CandidateTest do
   use Lyceum.ModelCase
 
-  alias Lyceum.Event
+  alias Lyceum.{Event, Status}
   alias Lyceum.Core.Candidate
 
   describe "Candidate flow" do
     test "should add a candidate to an event" do
       event = %Event{type: "Course"} |> Repo.insert!
+      status = Repo.insert!(%Status{name: "INFORM"})
 
       params = %{
         "name" => "Name lastname",
@@ -14,6 +15,7 @@ defmodule Lyceum.Core.CandidateTest do
         "email" => "name_lastname@domain.com",
         "telephone" => "1234567890",
         "observations" => "This user has some observations",
+        "status_id" => status.id,
         "event" => event.id
       }
 
@@ -25,6 +27,7 @@ defmodule Lyceum.Core.CandidateTest do
       assert candidate.email == "name_lastname@domain.com"
       assert candidate.telephone == "1234567890"
       assert candidate.observations == "This user has some observations"
+      assert length(candidate.statuses) == 1
       assert candidate.event_id == event.id
     end
 

@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Lyceum.{Repo, Status}
+
+for status <- ~w[INFORM INTERESTED TENTATIVE ENROLLED DECLINE] do
+  Repo.get_by(Status, name: status) || Repo.insert!(%Status{name: status})
+end
