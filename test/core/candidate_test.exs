@@ -15,7 +15,7 @@ defmodule Lyceum.Core.CandidateTest do
         "email" => "name_lastname@domain.com",
         "telephone" => "1234567890",
         "observations" => "This user has some observations",
-        "status_id" => status.id,
+        "status" => status.id,
         "event" => event.id
       }
 

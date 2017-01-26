@@ -39,7 +39,7 @@ defmodule Lyceum.Core.Candidate do
   defp insert(params) do
     params
     |> generate_changeset
-    |> execute_transaction(params["status_id"])
+    |> execute_transaction(params["status"])
   end
 
   defp generate_changeset(params) do
