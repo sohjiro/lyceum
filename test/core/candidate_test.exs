@@ -66,13 +66,15 @@ defmodule Lyceum.Core.CandidateTest do
     test "should update info for a specific candidate" do
       event = %Event{type: "Course"} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
+      %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 1} |> Repo.insert!
 
       params = %{
         "name" => "name",
         "degree" => "degree",
         "email" => "email@domain.com",
         "telephone" => "9090909090",
-        "observations" => "observations"
+        "observations" => "observations",
+        "status" => 2
       }
 
       {:ok, data} = Candidate.update(%{"id" => candidate.id, "candidate" => params})
@@ -83,6 +85,9 @@ defmodule Lyceum.Core.CandidateTest do
       assert data.telephone == "9090909090"
       assert data.observations == "observations"
       assert data.event_id == event.id
+      assert length(data.statuses) == 2
+      assert data.status.id == 2
+      assert data.status.name == "INTERESTED"
     end
 
     test "should reject a candidate creation" do

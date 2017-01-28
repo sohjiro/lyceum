@@ -23,10 +23,10 @@ defmodule Lyceum.Core.Candidate do
   end
 
   def update(%{"id" => id, "candidate" => params}) do
-    Candidate
-    |> Repo.get(id)
-    |> Candidate.changeset(params)
-    |> Repo.update
+    with {:ok, %{candidate: candidate}} <- do_update(id, params) do
+      candidate = candidate |> Repo.preload(:statuses) |> map_current_status
+      {:ok, candidate}
+    end
   end
 
   def create(params) do
@@ -36,6 +36,16 @@ defmodule Lyceum.Core.Candidate do
       _ ->
         %{status: :bad_request, code: "LYC-0002", message: "Bad parameters"}
     end
+  end
+
+  defp do_update(id, params) do
+    changeset = Candidate |> Repo.get(id) |> Candidate.changeset(params)
+
+    Multi.new
+    |> Multi.update(:candidate, changeset)
+    |> Multi.run(:tracking, &generate_tracking(&1, params["status"]))
+    |> Repo.transaction
+    |> IO.inspect
   end
 
   defp insert(params) do
