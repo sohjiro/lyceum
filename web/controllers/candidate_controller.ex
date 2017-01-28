@@ -31,7 +31,7 @@ defmodule Lyceum.CandidateController do
     with {:ok, candidate} <- Candidate.create(params) do
       conn
       |> put_status(:created)
-      |> render("show.json", candidate: Repo.preload(candidate, :event))
+      |> render("show.json", candidate: candidate)
     else
       _ ->
         conn
