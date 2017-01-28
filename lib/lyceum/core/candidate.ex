@@ -45,7 +45,6 @@ defmodule Lyceum.Core.Candidate do
     |> Multi.update(:candidate, changeset)
     |> Multi.run(:tracking, &generate_tracking(&1, params["status"]))
     |> Repo.transaction
-    |> IO.inspect
   end
 
   defp insert(params) do
