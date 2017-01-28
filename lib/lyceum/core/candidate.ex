@@ -23,19 +23,29 @@ defmodule Lyceum.Core.Candidate do
   end
 
   def update(%{"id" => id, "candidate" => params}) do
-    Candidate
-    |> Repo.get(id)
-    |> Candidate.changeset(params)
-    |> Repo.update
+    with {:ok, %{candidate: candidate}} <- do_update(id, params) do
+      candidate = candidate |> Repo.preload([:event, :statuses]) |> map_current_status
+      {:ok, candidate}
+    end
   end
 
   def create(params) do
     with {:ok, %{candidate: candidate}} <- insert(params) do
-      {:ok, Repo.preload(candidate, :statuses)}
+      candidate = candidate |> Repo.preload([:event, :statuses]) |> map_current_status
+      {:ok, candidate}
     else
       _ ->
         %{status: :bad_request, code: "LYC-0002", message: "Bad parameters"}
     end
+  end
+
+  defp do_update(id, params) do
+    changeset = Candidate |> Repo.get(id) |> Candidate.changeset(params)
+
+    Multi.new
+    |> Multi.update(:candidate, changeset)
+    |> Multi.run(:tracking, &generate_tracking(&1, params["status"]))
+    |> Repo.transaction
   end
 
   defp insert(params) do
@@ -57,19 +67,39 @@ defmodule Lyceum.Core.Candidate do
   end
 
   defp generate_tracking(%{candidate: candidate}, status_id) do
+    candidate
+    |> current_status
+    |> find_or_insert_status(candidate, status_id)
+  end
+
+  defp find_or_insert_status(nil, candidate, status_id) do
+    params = %{candidate_id: candidate.id, status_id: status_id}
     %CandidateStatus{}
-    |> CandidateStatus.changeset(%{candidate_id: candidate.id, status_id: status_id})
+    |> CandidateStatus.changeset(params)
     |> Repo.insert
+  end
+  defp find_or_insert_status(_status, _candidate, nil), do: {:error, %{}}
+
+  defp find_or_insert_status(current_status, candidate, status_id) do
+    cond do
+      current_status.status_id == status_id -> {:ok, current_status}
+      true -> find_or_insert_status(nil, candidate, status_id)
+    end
   end
 
   defp map_current_status(candidate) do
-    status = CandidateStatus
-    |> last(:inserted_at)
-    |> Repo.get_by(candidate_id: candidate.id)
+    status = candidate
+    |> current_status
     |> Repo.preload(:status)
     |> Map.get(:status)
 
     %{candidate | status: status}
+  end
+
+  defp current_status(candidate) do
+    CandidateStatus
+    |> last(:inserted_at)
+    |> Repo.get_by(candidate_id: candidate.id)
   end
 
 end
