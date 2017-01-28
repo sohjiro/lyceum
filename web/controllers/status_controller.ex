@@ -7,4 +7,10 @@ defmodule Lyceum.StatusController do
     render(conn, "index.json", statuses: Status.list())
   end
 
+  def show(conn, params) do
+    with {:ok, status} <- Status.get(params) do
+      render(conn, "show.json", status: status)
+    end
+  end
+
 end
