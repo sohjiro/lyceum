@@ -11,6 +11,8 @@ defmodule Lyceum.Candidate do
 
     many_to_many :statuses, Lyceum.Status, join_through: Lyceum.CandidateStatus
 
+    field :status, :any, virtual: true
+
     timestamps()
   end
 

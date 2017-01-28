@@ -43,7 +43,7 @@ defmodule Lyceum.Core.CandidateTest do
       [data | _] = candidates = Candidate.list_for_event(%{"event_id" => event.id})
 
       assert length(candidates) == 3
-      assert data.statuses == [Repo.get(Lyceum.Status, 1)]
+      assert data.status == Repo.get(Lyceum.Status, 1)
     end
 
     test "should show info for a specific candidate" do
@@ -60,7 +60,7 @@ defmodule Lyceum.Core.CandidateTest do
       assert data.telephone == "1234567890"
       assert data.observations == "This user has some observations"
       assert data.event_id == event.id
-      assert data.statuses == [Repo.get(Lyceum.Status, 2)]
+      assert data.status == Repo.get(Lyceum.Status, 2)
     end
 
     test "should update info for a specific candidate" do

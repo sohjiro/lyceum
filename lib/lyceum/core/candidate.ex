@@ -69,7 +69,7 @@ defmodule Lyceum.Core.Candidate do
     |> Repo.preload(:status)
     |> Map.get(:status)
 
-    %{candidate | statuses: [status]}
+    %{candidate | status: status}
   end
 
 end
