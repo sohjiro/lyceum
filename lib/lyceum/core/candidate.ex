@@ -9,11 +9,7 @@ defmodule Lyceum.Core.Candidate do
       event
       |> assoc(:candidates)
       |> Repo.all
-      # |> Repo.preload(:statuses)
-      # |> Enum.map(fn(candidate) ->
-      #   current_status = Lyceum.Candidate.current_status(candidate)
-      #   %{candidate | current_status: current_status}
-      # end)
+      |> Enum.map(&map_current_status/1)
     else
       _ -> []
     end
@@ -22,7 +18,7 @@ defmodule Lyceum.Core.Candidate do
   def show_info(%{"id" => id}) do
     case Repo.get(Candidate, id) do
       nil -> {:error, :not_found}
-      candidate -> candidate |> map_current_status
+      candidate -> {:ok, map_current_status(candidate)}
     end
   end
 
@@ -73,7 +69,7 @@ defmodule Lyceum.Core.Candidate do
     |> Repo.preload(:status)
     |> Map.get(:status)
 
-    {:ok, %{candidate | statuses: [status]}}
+    %{candidate | statuses: [status]}
   end
 
 end
