@@ -45,6 +45,8 @@ defmodule Lyceum.Core.CandidateTest do
     test "should show info for a specific candidate" do
       event = %Event{type: "Course"} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
+      %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 1} |> Repo.insert!
+      %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 2} |> Repo.insert!
 
       {:ok, data} = Candidate.show_info(%{"id" => candidate.id})
 
@@ -54,6 +56,7 @@ defmodule Lyceum.Core.CandidateTest do
       assert data.telephone == "1234567890"
       assert data.observations == "This user has some observations"
       assert data.event_id == event.id
+      assert data.statuses == [Repo.get(Lyceum.Status, 2)]
     end
 
     test "should update info for a specific candidate" do

@@ -23,4 +23,5 @@ defmodule Lyceum.Candidate do
     |> validate_required([:name, :email, :event_id])
     |> validate_format(:email, ~r/@/)
   end
+
 end

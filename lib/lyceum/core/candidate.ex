@@ -1,5 +1,6 @@
 defmodule Lyceum.Core.Candidate do
   import Ecto
+  import Ecto.Query, only: [last: 2]
   alias Ecto.Multi
   alias Lyceum.{Repo, Candidate, CandidateStatus}
 
@@ -8,6 +9,11 @@ defmodule Lyceum.Core.Candidate do
       event
       |> assoc(:candidates)
       |> Repo.all
+      # |> Repo.preload(:statuses)
+      # |> Enum.map(fn(candidate) ->
+      #   current_status = Lyceum.Candidate.current_status(candidate)
+      #   %{candidate | current_status: current_status}
+      # end)
     else
       _ -> []
     end
@@ -16,7 +22,7 @@ defmodule Lyceum.Core.Candidate do
   def show_info(%{"id" => id}) do
     case Repo.get(Candidate, id) do
       nil -> {:error, :not_found}
-      candidate -> {:ok, candidate}
+      candidate -> candidate |> map_current_status
     end
   end
 
@@ -58,6 +64,16 @@ defmodule Lyceum.Core.Candidate do
     %CandidateStatus{}
     |> CandidateStatus.changeset(%{candidate_id: candidate.id, status_id: status_id})
     |> Repo.insert
+  end
+
+  defp map_current_status(candidate) do
+    status = CandidateStatus
+    |> last(:inserted_at)
+    |> Repo.get_by(candidate_id: candidate.id)
+    |> Repo.preload(:status)
+    |> Map.get(:status)
+
+    {:ok, %{candidate | statuses: [status]}}
   end
 
 end
