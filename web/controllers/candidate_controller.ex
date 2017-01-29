@@ -1,7 +1,6 @@
 defmodule Lyceum.CandidateController do
   use Lyceum.Web, :controller
 
-  alias Lyceum.Repo
   alias Lyceum.Core.Candidate
 
   def index(conn, params) do
