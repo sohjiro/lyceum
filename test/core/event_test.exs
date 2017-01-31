@@ -8,7 +8,7 @@ defmodule Lyceum.Core.EventTest do
       params = %{"type" => 1,
                  "name" => "some course",
                  "starting_date" => "2017-01-14",
-                 "campus" => "Chiapas",
+                 "campus" => 1,
                  "quorum" => 10,
                  "price" => 1500.00
                 }
@@ -19,7 +19,7 @@ defmodule Lyceum.Core.EventTest do
       assert event.type_id == 1
       assert event.name == "some course"
       assert Ecto.Date.compare(event.starting_date, Ecto.Date.cast!("2017-01-14")) == :eq
-      assert event.campus == "Chiapas"
+      assert event.campus_id == 1
       assert event.quorum == 10
       assert event.price == 1500.00
     end
