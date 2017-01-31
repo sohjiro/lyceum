@@ -2,7 +2,6 @@ defmodule Lyceum.Event do
   use Lyceum.Web, :model
 
   schema "events" do
-    field :type, :string
     field :name, :string
     field :starting_date, Ecto.Date
     field :campus, :string
@@ -10,6 +9,7 @@ defmodule Lyceum.Event do
     field :price, :float
 
     has_many :candidates, Lyceum.Candidate
+    belongs_to :type_id, Lyceum.Type
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule Lyceum.Event do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:type, :name, :starting_date, :campus, :quorum, :price])
-    |> validate_required([:type, :name, :starting_date, :campus, :quorum, :price])
+    |> cast(params, ~w[type name starting_date campus quorum price type_id]a)
+    |> validate_required(~w[type name starting_date campus quorum price type_id]a)
   end
 end
