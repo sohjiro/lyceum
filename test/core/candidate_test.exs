@@ -6,7 +6,7 @@ defmodule Lyceum.Core.CandidateTest do
 
   describe "Candidate flow" do
     test "should add a candidate to an event" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
       status = Repo.insert!(%Status{name: "INFORM"})
 
       params = %{
@@ -32,7 +32,7 @@ defmodule Lyceum.Core.CandidateTest do
     end
 
     test "should list all candidates for an event" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
       c1 = %Lyceum.Candidate{name: "Name 1", event_id: event.id} |> Repo.insert!
       c2 = %Lyceum.Candidate{name: "Name 2", event_id: event.id} |> Repo.insert!
       c3 = %Lyceum.Candidate{name: "Name 3", event_id: event.id} |> Repo.insert!
@@ -47,7 +47,7 @@ defmodule Lyceum.Core.CandidateTest do
     end
 
     test "should show info for a specific candidate" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
       %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 1} |> Repo.insert!
       %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 2} |> Repo.insert!
@@ -64,7 +64,7 @@ defmodule Lyceum.Core.CandidateTest do
     end
 
     test "should update info for a specific candidate" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
       %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 1} |> Repo.insert!
 
@@ -91,7 +91,7 @@ defmodule Lyceum.Core.CandidateTest do
     end
 
     test "should reject a candidate creation" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
 
       params = %{
         "name" => "Name lastname",
@@ -110,7 +110,7 @@ defmodule Lyceum.Core.CandidateTest do
     end
 
     test "should not duplicate current status for a candidate" do
-      event = %Event{type: "Course"} |> Repo.insert!
+      event = %Event{type_id: 1} |> Repo.insert!
       candidate = %Lyceum.Candidate{name: "Name lastname", degree: "Student", email: "name_lastname@domain.com", telephone: "1234567890", observations: "This user has some observations", event_id: event.id} |> Repo.insert!
       %Lyceum.CandidateStatus{candidate_id: candidate.id, status_id: 1} |> Repo.insert!
 

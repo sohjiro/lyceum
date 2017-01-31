@@ -5,7 +5,7 @@ defmodule Lyceum.Core.EventTest do
 
   describe "Create an Event" do
     test "should create a new event" do
-      params = %{"type" => "course",
+      params = %{"type" => 1,
                  "name" => "some course",
                  "starting_date" => "2017-01-14",
                  "campus" => "Chiapas",
@@ -16,7 +16,7 @@ defmodule Lyceum.Core.EventTest do
       {:ok, event} = Event.create(params)
 
       assert event.id
-      assert event.type == "course"
+      assert event.type_id == 1
       assert event.name == "some course"
       assert Ecto.Date.compare(event.starting_date, Ecto.Date.cast!("2017-01-14")) == :eq
       assert event.campus == "Chiapas"
@@ -27,7 +27,7 @@ defmodule Lyceum.Core.EventTest do
 
   describe "List events" do
     test "should display all register of events" do
-      %Lyceum.Event{type: "type"} |> Repo.insert!
+      %Lyceum.Event{type_id: 1} |> Repo.insert!
 
       assert length(Event.list) == 1
     end
@@ -35,12 +35,12 @@ defmodule Lyceum.Core.EventTest do
 
   describe "Display event information" do
     test "should display data about an alreday created event" do
-      e = %Lyceum.Event{type: "type"} |> Repo.insert!
+      e = %Lyceum.Event{type_id: 1} |> Repo.insert!
 
       {:ok, event} = Event.show_info(%{"id" => e.id})
 
       assert event.id == e.id
-      assert event.type == "type"
+      assert event.type_id == 1
     end
   end
 
