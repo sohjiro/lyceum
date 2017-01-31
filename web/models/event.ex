@@ -4,12 +4,12 @@ defmodule Lyceum.Event do
   schema "events" do
     field :name, :string
     field :starting_date, Ecto.Date
-    field :campus, :string
     field :quorum, :integer
     field :price, :float
 
     has_many :candidates, Lyceum.Candidate
     belongs_to :type, Lyceum.Type
+    belongs_to :campus, Lyceum.Campus
 
     timestamps()
   end
@@ -18,8 +18,9 @@ defmodule Lyceum.Event do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
+    opts = ~w[name starting_date campus quorum price type_id campus_id]a
     struct
-    |> cast(params, [:name, :starting_date, :campus, :quorum, :price, :type_id])
-    |> validate_required([:name, :starting_date, :campus, :quorum, :price, :type_id])
+    |> cast(params, opts)
+    |> validate_required(opts)
   end
 end
