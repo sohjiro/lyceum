@@ -9,7 +9,7 @@ defmodule Lyceum.Event do
     field :price, :float
 
     has_many :candidates, Lyceum.Candidate
-    belongs_to :type_id, Lyceum.Type
+    belongs_to :type, Lyceum.Type
 
     timestamps()
   end
@@ -19,7 +19,7 @@ defmodule Lyceum.Event do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, ~w[type name starting_date campus quorum price type_id]a)
-    |> validate_required(~w[type name starting_date campus quorum price type_id]a)
+    |> cast(params, [:name, :starting_date, :campus, :quorum, :price, :type_id])
+    |> validate_required([:name, :starting_date, :campus, :quorum, :price, :type_id])
   end
 end
