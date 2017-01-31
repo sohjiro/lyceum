@@ -18,9 +18,8 @@ defmodule Lyceum.Event do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
-    opts = ~w[name starting_date campus quorum price type_id campus_id]a
     struct
-    |> cast(params, opts)
-    |> validate_required(opts)
+    |> cast(params, [:name, :starting_date, :quorum, :price, :type_id, :campus_id])
+    |> validate_required([:name, :starting_date, :quorum, :price, :type_id, :campus_id])
   end
 end
