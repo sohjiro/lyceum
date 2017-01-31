@@ -7,4 +7,8 @@ defmodule Lyceum.TypeController do
     render(conn, "index.json", types: Repo.all(Type))
   end
 
+  def show(conn, %{"id" => id}) do
+    render(conn, "show.json", type: Repo.get(Type, id))
+  end
+
 end

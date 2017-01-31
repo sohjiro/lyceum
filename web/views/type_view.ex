@@ -5,6 +5,10 @@ defmodule Lyceum.TypeView do
     %{types: render_many(types, Lyceum.TypeView, "type.json")}
   end
 
+  def render("show.json", %{type: type}) do
+    %{type: render_one(type, Lyceum.TypeView, "type.json")}
+  end
+
   def render("type.json", %{type: type}) do
     %{id: type.id, name: type.name}
   end
