@@ -14,10 +14,10 @@ defmodule Lyceum.EventView do
       id: event.id,
       name: event.name,
       starting_date: event.starting_date,
-      campus: event.campus,
       quorum: event.quorum,
       price: event.price,
       type: event.type_id,
+      campus: event.campus_id,
       links: %{
         "candidates": "candidates",
       }

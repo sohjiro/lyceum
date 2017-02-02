@@ -12,7 +12,9 @@ defmodule Lyceum.Core.Event do
   end
 
   def create(params) do
-    params = Map.put(params, "type_id", params["type"])
+    params = params
+             |> Map.put("type_id", params["type"])
+             |> Map.put("campus_id", params["campus"])
     %Event{}
     |> Event.changeset(params)
     |> Repo.insert
