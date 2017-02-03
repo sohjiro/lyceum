@@ -3,7 +3,7 @@ defmodule Lyceum.EventTest do
 
   alias Lyceum.Event
 
-  @valid_attrs %{campus_id: 1, name: "some content", price: "120.5", quorum: 42, starting_date: %{day: 17, month: 4, year: 2010}, type_id: 1}
+  @valid_attrs %{campus_id: 1, subject_id: 1, price: "120.5", quorum: 42, starting_date: %{day: 17, month: 4, year: 2010}, type_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
