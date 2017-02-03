@@ -6,18 +6,18 @@ defmodule Lyceum.Core.EventTest do
   describe "Create an Event" do
     test "should create a new event" do
       params = %{"type" => 1,
-                 "name" => "some course",
                  "starting_date" => "2017-01-14",
                  "campus" => 1,
                  "quorum" => 10,
-                 "price" => 1500.00
+                 "price" => 1500.00,
+                 "subject" => 2
                 }
 
       {:ok, event} = Event.create(params)
 
       assert event.id
       assert event.type_id == 1
-      assert event.name == "some course"
+      assert event.subject_id == 2
       assert Ecto.Date.compare(event.starting_date, Ecto.Date.cast!("2017-01-14")) == :eq
       assert event.campus_id == 1
       assert event.quorum == 10
