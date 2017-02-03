@@ -2,7 +2,7 @@ defmodule Lyceum.SubjectView do
   use Lyceum.Web, :view
 
   def render("index.json", %{subjects: subjects}) do
-    %{subjects: render_many(subjects, Lyceum.SubjectView, "subjects.json")}
+    %{subjects: render_many(subjects, Lyceum.SubjectView, "subject.json")}
   end
 
   def render("show.json", %{subject: subject}) do
