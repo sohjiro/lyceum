@@ -12,12 +12,12 @@ defmodule Lyceum.EventView do
   def render("event.json", %{event: event}) do
     %{
       id: event.id,
-      name: event.name,
       starting_date: event.starting_date,
       quorum: event.quorum,
       price: event.price,
       type: event.type_id,
       campus: event.campus_id,
+      subject: event.subject_id,
       links: %{
         "candidates": "candidates",
       }
