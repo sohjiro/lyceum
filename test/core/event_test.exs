@@ -6,11 +6,11 @@ defmodule Lyceum.Core.EventTest do
   describe "Create an Event" do
     test "should create a new event" do
       params = %{"type" => 1,
-                 "name" => "some course",
                  "starting_date" => "2017-01-14",
                  "campus" => 1,
                  "quorum" => 10,
-                 "price" => 1500.00
+                 "price" => 1500.00,
+                 "subject_id" => 1
                 }
 
       {:ok, event} = Event.create(params)

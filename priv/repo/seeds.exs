@@ -10,7 +10,7 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-alias Lyceum.{Repo, Status, Type, Campus}
+alias Lyceum.{Repo, Status, Type, Campus, Subject}
 
 for status <- ~w[INFORM INTERESTED TENTATIVE ENROLLED DECLINE] do
   Repo.get_by(Status, name: status) || Repo.insert!(%Status{name: status})
@@ -22,4 +22,8 @@ end
 
 for campus <- ~w[MEXICO CHIAPAS OAXACA VERACRUZ] do
     Repo.get_by(Campus, name: campus) || Repo.insert!(%Campus{name: campus})
+end
+
+for subject <- ["MESOTERAPIA", "NUTRICIÓN CLINICA"] do
+    Repo.get_by(Subject, name: subject) || Repo.insert!(%Subject{name: subject})
 end
