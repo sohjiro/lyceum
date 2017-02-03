@@ -15,5 +15,6 @@ defmodule Lyceum.Router do
     resources "/statuses", StatusController, only: [:index, :show]
     resources "/campuses", CampusController, only: [:index, :show]
     resources "/types", TypeController, only: [:index, :show]
+    resources "/subjects", SubjectController, only: [:index, :show]
   end
 end
