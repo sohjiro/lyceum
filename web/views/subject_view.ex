@@ -12,7 +12,9 @@ defmodule Lyceum.SubjectView do
   def render("subject.json", %{subject: subject}) do
     %{
       id: subject.id,
-      name: subject.name
+      name: subject.name,
+      inserted_at: NaiveDateTime.to_date(subject.inserted_at),
+      updated_at: NaiveDateTime.to_date(subject.updated_at)
     }
   end
 
