@@ -11,4 +11,16 @@ defmodule Lyceum.SubjectController do
     render(conn, "show.json", subject: Repo.get(Subject, id))
   end
 
+  def create(conn, %{"subject" => params}) do
+    changeset = Subject.changeset(%Subject{}, params)
+    with {:ok, subject} <- Repo.insert(changeset) do
+      render(conn, "show.json", subject: subject)
+    else
+      _ ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{errors: %{code: "LYC-0001", message: "Bad parameters"}})
+    end
+  end
+
 end
