@@ -4,6 +4,9 @@ defmodule Lyceum.Campus do
   schema "campuses" do
     field :name, :string
 
+    has_many :events, Lyceum.Event
+    has_many :candidates, through: [:events, :candidates]
+
     timestamps()
   end
 
