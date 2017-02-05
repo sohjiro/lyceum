@@ -1,6 +1,6 @@
 defmodule Lyceum.Core.Candidate do
   import Ecto
-  import Ecto.Query, only: [last: 2]
+  import Ecto.Query, only: [last: 2, order_by: 2]
   alias Ecto.Multi
   alias Lyceum.{Repo, Candidate, CandidateStatus}
 
@@ -110,6 +110,7 @@ defmodule Lyceum.Core.Candidate do
   defp fetch_candidates(model) do
     model
     |> assoc(:candidates)
+    |> order_by(:id)
     |> Repo.all
     |> Enum.map(&map_current_status/1)
   end
