@@ -6,10 +6,7 @@ defmodule Lyceum.Core.Candidate do
 
   def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Lyceum.Core.Event.show_info(%{"id" => event_id}) do
-      event
-      |> assoc(:candidates)
-      |> Repo.all
-      |> Enum.map(&map_current_status/1)
+      event |> fetch_candidates
     else
       _ -> []
     end
@@ -17,9 +14,7 @@ defmodule Lyceum.Core.Candidate do
 
   def list(%{"campus_id" => campus_id}) do
     with {:ok, campus} <- Lyceum.Core.Campus.get(%{"id" => campus_id}) do
-      campus
-      |> assoc(:candidates)
-      |> Repo.all
+      campus |> fetch_candidates
     else
       _ -> []
     end
@@ -111,5 +106,13 @@ defmodule Lyceum.Core.Candidate do
     |> last(:inserted_at)
     |> Repo.get_by(candidate_id: candidate.id)
   end
+
+  defp fetch_candidates(model) do
+    model
+    |> assoc(:candidates)
+    |> Repo.all
+    |> Enum.map(&map_current_status/1)
+  end
+
 
 end
