@@ -4,12 +4,22 @@ defmodule Lyceum.Core.Candidate do
   alias Ecto.Multi
   alias Lyceum.{Repo, Candidate, CandidateStatus}
 
-  def list_for_event(%{"event_id" => event_id}) do
+  def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Lyceum.Core.Event.show_info(%{"id" => event_id}) do
       event
       |> assoc(:candidates)
       |> Repo.all
       |> Enum.map(&map_current_status/1)
+    else
+      _ -> []
+    end
+  end
+
+  def list(%{"campus_id" => campus_id}) do
+    with {:ok, campus} <- Lyceum.Core.Campus.get(%{"id" => campus_id}) do
+      campus
+      |> assoc(:candidates)
+      |> Repo.all
     else
       _ -> []
     end
