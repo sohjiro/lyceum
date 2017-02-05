@@ -31,8 +31,8 @@ defmodule Lyceum.Core.CandidateTest do
       assert candidate.event_id == event.id
     end
 
-    test "should list all candidates for an event" do
-      event = %Event{type_id: 1} |> Repo.insert!
+    test "should list all for a campus and event" do
+      event = %Event{campus_id: 3} |> Repo.insert!
       c1 = %Lyceum.Candidate{name: "Name 1", event_id: event.id} |> Repo.insert!
       c2 = %Lyceum.Candidate{name: "Name 2", event_id: event.id} |> Repo.insert!
       c3 = %Lyceum.Candidate{name: "Name 3", event_id: event.id} |> Repo.insert!
@@ -40,10 +40,14 @@ defmodule Lyceum.Core.CandidateTest do
       %Lyceum.CandidateStatus{candidate_id: c2.id, status_id: 1} |> Repo.insert!
       %Lyceum.CandidateStatus{candidate_id: c3.id, status_id: 1} |> Repo.insert!
 
-      [data | _] = candidates = Candidate.list_for_event(%{"event_id" => event.id})
-
+      candidates = Candidate.list(%{"campus_id" => 3})
       assert length(candidates) == 3
-      assert data.status == Repo.get(Lyceum.Status, 1)
+
+      candidates = Candidate.list(%{"campus_id" => 1})
+      assert length(candidates) == 0
+
+      candidates = Candidate.list(%{"event_id" => event.id})
+      assert length(candidates) == 3
     end
 
     test "should show info for a specific candidate" do
