@@ -12,7 +12,10 @@ defmodule Lyceum.CampusView do
   def render("campus.json", %{campus: campus}) do
     %{
       id: campus.id,
-      name: campus.name
+      name: campus.name,
+      links: %{
+        "candidates": "/api/v1/candidates?campus_id=#{campus.id}"
+      }
     }
   end
 

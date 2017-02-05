@@ -18,7 +18,10 @@ defmodule Lyceum.CandidateView do
       telephone: candidate.telephone,
       observations: candidate.observations,
       event: candidate.event_id,
-      status: candidate.status.id
+      status: candidate.status.id,
+      links: %{
+        "event": "events/#{candidate.event_id}"
+      }
     }
   end
 
