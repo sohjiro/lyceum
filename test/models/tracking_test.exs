@@ -1,18 +1,18 @@
-defmodule Lyceum.CandidateStatusTest do
+defmodule Lyceum.TrackingTest do
   use Lyceum.ModelCase
 
-  alias Lyceum.CandidateStatus
+  alias Lyceum.TrackingStatus
 
   @valid_attrs %{candidate_id: 1, status_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = CandidateStatus.changeset(%CandidateStatus{}, @valid_attrs)
+    changeset = Tracking.changeset(%Tracking{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = CandidateStatus.changeset(%CandidateStatus{}, @invalid_attrs)
+    changeset = Tracking.changeset(%Tracking{}, @invalid_attrs)
     refute changeset.valid?
   end
 end

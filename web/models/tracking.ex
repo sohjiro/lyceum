@@ -1,7 +1,6 @@
 defmodule Lyceum.Tracking do
   use Lyceum.Web, :model
 
-  schema "candidates_statuses" do
     belongs_to :candidate, Lyceum.Candidate
     belongs_to :status, Lyceum.Status
     belongs_to :event, Lyceum.Event
