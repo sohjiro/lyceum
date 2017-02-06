@@ -1,6 +1,6 @@
 defmodule Lyceum.Core.Candidate do
   import Ecto
-  import Ecto.Query, only: [last: 2, order_by: 2]
+  import Ecto.Query, only: [order_by: 2]
   alias Ecto.Multi
   alias Lyceum.{Repo, Candidate, Tracking}
 
