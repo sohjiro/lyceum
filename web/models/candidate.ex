@@ -8,9 +8,7 @@ defmodule Lyceum.Candidate do
     field :telephone, :string
     field :observations, :string
 
-    field :status, :any, virtual: true
-
-    has_many :records, Lyceum.Tracking
+    has_many :records, Lyceum.Record
 
     timestamps()
   end

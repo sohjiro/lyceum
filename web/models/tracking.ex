@@ -1,10 +1,11 @@
-defmodule Lyceum.Tracking do
+defmodule Lyceum.Record do
   use Lyceum.Web, :model
 
-  schema "tracking" do
+  schema "records" do
     belongs_to :candidate, Lyceum.Candidate
-    belongs_to :status, Lyceum.Status
     belongs_to :event, Lyceum.Event
+
+    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.TrackingStatus
 
     timestamps()
   end
