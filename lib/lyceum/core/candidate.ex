@@ -39,7 +39,7 @@ defmodule Lyceum.Core.Candidate do
 
   def update(%{"id" => id, "candidate" => params}) do
     with {:ok, %{candidate: candidate}} <- do_update(id, params) do
-      candidate = candidate |> Repo.preload([:records])
+      candidate = current_status(candidate, params["event"])
       {:ok, candidate}
     end
   end
