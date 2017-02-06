@@ -3,7 +3,7 @@ defmodule Lyceum.TrackingTest do
 
   alias Lyceum.Tracking
 
-  @valid_attrs %{candidate_id: 1, status_id: 1}
+  @valid_attrs %{candidate_id: 1, status_id: 1, event_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
