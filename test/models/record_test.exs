@@ -1,9 +1,9 @@
-defmodule Lyceum.TrackingTest do
+defmodule Lyceum.RecordTest do
   use Lyceum.ModelCase
 
-  alias Lyceum.Tracking
+  alias Lyceum.Record
 
-  @valid_attrs %{candidate_id: 1, status_id: 1, event_id: 1}
+  @valid_attrs %{candidate_id: 1, event_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
