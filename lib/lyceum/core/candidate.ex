@@ -29,7 +29,7 @@ defmodule Lyceum.Core.Candidate do
 
   def create(params) do
     with {:ok, %{candidate: candidate}} <- insert(params) do
-      candidate = candidate |> Repo.preload([:records])
+      candidate = current_status(candidate, params["event"])
       {:ok, candidate}
     else
       _ ->

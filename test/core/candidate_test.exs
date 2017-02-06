@@ -27,7 +27,8 @@ defmodule Lyceum.Core.CandidateTest do
       assert candidate.email == "name_lastname@domain.com"
       assert candidate.telephone == "1234567890"
       assert candidate.observations == "This user has some observations"
-      assert length(candidate.records) == 1
+      assert candidate.status.id == status.id
+      assert candidate.status.name == status.name
     end
 
     test "should list all for a campus and event" do
