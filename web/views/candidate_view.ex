@@ -16,7 +16,8 @@ defmodule Lyceum.CandidateView do
       degree: candidate.degree,
       email: candidate.email,
       telephone: candidate.telephone,
-      observations: candidate.observations
+      observations: candidate.observations,
+      status: candidate.status.id
     }
   end
 

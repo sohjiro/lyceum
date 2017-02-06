@@ -1,12 +1,12 @@
 defmodule Lyceum.Core.Candidate do
   import Ecto
-  import Ecto.Query, only: [order_by: 2]
+  import Ecto.Query
   alias Ecto.Multi
   alias Lyceum.{Repo, Candidate, Tracking}
 
   def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Lyceum.Core.Event.show_info(%{"id" => event_id}) do
-      event |> fetch_candidates
+      event |> fetch_candidates |> Enum.map(&current_status(&1, event_id))
     else
       _ -> []
     end
@@ -76,7 +76,20 @@ defmodule Lyceum.Core.Candidate do
     model
     |> assoc(:candidates)
     |> order_by(:id)
+    |> preload(:records)
     |> Repo.all
+  end
+
+  defp current_status(candidate, event_id) do
+    current_tracking = last_tracking(candidate.id, event_id)
+    %{candidate | status: current_tracking.status}
+  end
+
+  defp last_tracking(candidate_id, event_id) do
+    from(t in Tracking, where: t.candidate_id == ^candidate_id and t.event_id == ^event_id)
+    |> last(:inserted_at)
+    |> preload(:status)
+    |> Repo.one
   end
 
 end

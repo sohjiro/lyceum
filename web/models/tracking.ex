@@ -17,4 +17,5 @@ defmodule Lyceum.Tracking do
     |> cast(params, [:candidate_id, :status_id, :event_id])
     |> validate_required([:candidate_id, :status_id, :event_id])
   end
+
 end
