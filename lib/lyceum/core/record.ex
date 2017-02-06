@@ -13,6 +13,13 @@ defmodule Lyceum.Core.Record do
     end
   end
 
+  def update(record_id, params) do
+    record = Repo.get(Record, record_id)
+    with {:ok, record_status} <- insert_status(%{record: record}, params["status"]) do
+      {:ok, Repo.preload(record, [:candidate, :statuses])}
+    end
+  end
+
   defp insert_record(params) do
     candidate_changeset = Candidate.changeset(%Candidate{}, params)
     Multi.new
