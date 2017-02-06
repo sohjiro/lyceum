@@ -1,4 +1,4 @@
-defmodule Lyceum.Repo.Migrations.CreateRecord do
+defmodule Lyceum.Repo.Migrations.CreateTracking do
   use Ecto.Migration
 
   def change do
