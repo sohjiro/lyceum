@@ -79,9 +79,9 @@ defmodule Lyceum.Core.Candidate do
 
   defp find_or_insert_status(nil, candidate, status_id) do
     params = %{candidate_id: candidate.id, status_id: status_id}
-    %CandidateStatus{}
-    |> CandidateStatus.changeset(params)
-    |> Repo.insert
+    # %CandidateStatus{}
+    # |> CandidateStatus.changeset(params)
+    # |> Repo.insert
   end
   defp find_or_insert_status(_status, _candidate, nil), do: {:error, %{}}
 
