@@ -1,9 +1,10 @@
-defmodule Lyceum.CandidateStatus do
+defmodule Lyceum.Tracking do
   use Lyceum.Web, :model
 
   schema "candidates_statuses" do
     belongs_to :candidate, Lyceum.Candidate
     belongs_to :status, Lyceum.Status
+    belongs_to :event, Lyceum.Event
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule Lyceum.CandidateStatus do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:candidate_id, :status_id])
-    |> validate_required([:candidate_id, :status_id])
+    |> cast(params, [:candidate_id, :status_id, :event_id])
+    |> validate_required([:candidate_id, :status_id, :event_id])
   end
 end
