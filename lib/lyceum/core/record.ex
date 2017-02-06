@@ -4,6 +4,9 @@ defmodule Lyceum.Core.Record do
   alias Ecto.Multi
   alias Lyceum.{Repo, Record, RecordStatus, Candidate}
 
+  def index(params) do
+  end
+
   def create(params) do
     with {:ok, %{record: record}} <- insert_record(params) do
       {:ok, Repo.preload(record, [:candidate, :statuses])}

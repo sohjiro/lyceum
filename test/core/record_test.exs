@@ -51,14 +51,14 @@ defmodule Lyceum.Core.RecordTest do
 
     test "Show records for an event" do
       event = %Event{type_id: 1} |> Repo.insert!
-      candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
-      status = Repo.get_by(Status, name: "INFORM")
-      record = %Lyceum.Record{candidate_id: candidate.id, event_id: event.id} |> Repo.insert!
-      %RecordStatus{record_id: record.id, status_id: status.id} |> Repo.insert!
+      c1 = %Candidate{name: "Name lastname"} |> Repo.insert!
+      c2 = %Candidate{name: "Name lastname"} |> Repo.insert!
+      %Lyceum.Record{candidate_id: c1.id, event_id: event.id} |> Repo.insert!
+      %Lyceum.Record{candidate_id: c2.id, event_id: event.id} |> Repo.insert!
 
-      params = %{"status" => 2}
+      params = %{"event" => event.id}
 
-      {:ok, record} = Record.update(record.id, params)
+      {:ok, record} = Record.list(%{"event_id" => event.id})
 
       assert record.id
       assert record.candidate_id == candidate.id
