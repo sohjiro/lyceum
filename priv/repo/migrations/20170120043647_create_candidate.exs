@@ -8,11 +8,9 @@ defmodule Lyceum.Repo.Migrations.CreateCandidate do
       add :email, :string
       add :telephone, :string
       add :observations, :string
-      add :event_id, references(:events, on_delete: :nothing)
 
       timestamps()
     end
-    create index(:candidates, [:event_id])
     create unique_index(:candidates, [:email])
 
   end
