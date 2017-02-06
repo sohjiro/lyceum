@@ -16,7 +16,7 @@ defmodule Lyceum.Core.RecordTest do
         "telephone" => "1234567890",
         "observations" => "This user has some observations",
         "event" => event.id,
-        #"status" => status.id
+        "status" => status.id
       }
 
       {:ok, record} = Record.create(params)
@@ -29,7 +29,7 @@ defmodule Lyceum.Core.RecordTest do
       assert record.candidate.email == "name_lastname@domain.com"
       assert record.candidate.telephone == "1234567890"
       assert record.candidate.observations == "This user has some observations"
-      # assert length(record.statuses) == 1
+      assert length(record.statuses) == 1
     end
   end
 end
