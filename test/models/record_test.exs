@@ -7,12 +7,12 @@ defmodule Lyceum.RecordTest do
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    changeset = Tracking.changeset(%Tracking{}, @valid_attrs)
+    changeset = Record.changeset(%Record{}, @valid_attrs)
     assert changeset.valid?
   end
 
   test "changeset with invalid attributes" do
-    changeset = Tracking.changeset(%Tracking{}, @invalid_attrs)
+    changeset = Record.changeset(%Record{}, @invalid_attrs)
     refute changeset.valid?
   end
 end

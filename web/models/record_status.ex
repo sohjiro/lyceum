@@ -13,7 +13,7 @@ defmodule Lyceum.RecordStatus do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [])
-    |> validate_required([])
+    |> cast(params, [:status_id, :record_id])
+    |> validate_required([:status_id, :record_id])
   end
 end

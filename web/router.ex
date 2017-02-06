@@ -9,7 +9,6 @@ defmodule Lyceum.Router do
     pipe_through :api
 
     resources "/events", EventController, only: [:index, :create, :show]
-    resources "/candidates", CandidateController
     resources "/statuses", StatusController, only: [:index, :show]
     resources "/campuses", CampusController, only: [:index, :show]
     resources "/types", TypeController, only: [:index, :show]
