@@ -2,7 +2,7 @@ defmodule Lyceum.Core.Candidate do
   import Ecto
   import Ecto.Query
   alias Ecto.Multi
-  alias Lyceum.{Repo, Candidate, Tracking}
+  alias Lyceum.{Repo, Candidate, Record}
 
   def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Lyceum.Core.Event.show_info(%{"id" => event_id}) do
@@ -75,8 +75,8 @@ defmodule Lyceum.Core.Candidate do
   end
 
   defp generate_tracking(%{candidate: candidate}, status_id, event_id) do
-    %Tracking{}
-    |> Tracking.changeset(%{candidate_id: candidate.id, status_id: status_id, event_id: event_id})
+    %Record{}
+    |> Record.changeset(%{candidate_id: candidate.id, status_id: status_id, event_id: event_id})
     |> Repo.insert
   end
 
@@ -94,7 +94,7 @@ defmodule Lyceum.Core.Candidate do
   end
 
   defp last_tracking(candidate_id, event_id) do
-    from(t in Tracking, where: t.candidate_id == ^candidate_id and t.event_id == ^event_id)
+    from(t in Record, where: t.candidate_id == ^candidate_id and t.event_id == ^event_id)
     |> last(:inserted_at)
     |> preload(:status)
     |> Repo.one
