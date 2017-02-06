@@ -91,6 +91,25 @@ defmodule Lyceum.Core.CandidateTest do
       assert data.status.name == "INTERESTED"
     end
 
+    test "should reject a candidate creation" do
+      event = %Event{type_id: 1} |> Repo.insert!
+
+      params = %{
+        "name" => "Name lastname",
+        "degree" => "Student",
+        "email" => "name_lastname@domain.com",
+        "telephone" => "1234567890",
+        "observations" => "This user has some observations",
+        "event" => event.id
+      }
+
+      response = Candidate.create(params)
+
+      assert response.status == :bad_request
+      assert response.code == "LYC-0002"
+      assert response.message == "Bad parameters"
+    end
+
   end
 
 end
