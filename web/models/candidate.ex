@@ -10,6 +10,8 @@ defmodule Lyceum.Candidate do
 
     field :status, :any, virtual: true
 
+    has_many :records, Lyceum.Tracking
+
     timestamps()
   end
 

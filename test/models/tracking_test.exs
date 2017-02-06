@@ -1,7 +1,7 @@
 defmodule Lyceum.TrackingTest do
   use Lyceum.ModelCase
 
-  alias Lyceum.TrackingStatus
+  alias Lyceum.Tracking
 
   @valid_attrs %{candidate_id: 1, status_id: 1}
   @invalid_attrs %{}
