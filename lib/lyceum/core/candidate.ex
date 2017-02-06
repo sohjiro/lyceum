@@ -14,7 +14,15 @@ defmodule Lyceum.Core.Candidate do
 
   def list(%{"campus_id" => campus_id}) do
     with {:ok, campus} <- Lyceum.Core.Campus.get(%{"id" => campus_id}) do
-      campus |> fetch_candidates
+      campus
+      |> assoc(:events)
+      |> Repo.all
+      |> Enum.map(fn(event) ->
+        event
+        |> fetch_candidates
+        |> Enum.map(&current_status(&1, event.id))
+      end)
+      |> List.flatten
     else
       _ -> []
     end

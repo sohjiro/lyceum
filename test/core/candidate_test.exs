@@ -37,6 +37,7 @@ defmodule Lyceum.Core.CandidateTest do
       c2 = %Lyceum.Candidate{name: "Name 2"} |> Repo.insert!
       c3 = %Lyceum.Candidate{name: "Name 3"} |> Repo.insert!
       %Lyceum.Tracking{candidate_id: c1.id, status_id: 1, event_id: event.id} |> Repo.insert!
+      %Lyceum.Tracking{candidate_id: c1.id, status_id: 2, event_id: event.id} |> Repo.insert!
       %Lyceum.Tracking{candidate_id: c2.id, status_id: 1, event_id: event.id} |> Repo.insert!
       %Lyceum.Tracking{candidate_id: c3.id, status_id: 1, event_id: event.id} |> Repo.insert!
 
@@ -48,6 +49,18 @@ defmodule Lyceum.Core.CandidateTest do
 
       candidates = Candidate.list(%{"event_id" => event.id})
       assert length(candidates) == 3
+    end
+
+    test "should map status for candidates with campus" do
+      event = %Event{campus_id: 3} |> Repo.insert!
+      c1 = %Lyceum.Candidate{name: "Name 1"} |> Repo.insert!
+      %Lyceum.Tracking{candidate_id: c1.id, status_id: 1, event_id: event.id} |> Repo.insert!
+      %Lyceum.Tracking{candidate_id: c1.id, status_id: 2, event_id: event.id} |> Repo.insert!
+
+      [candidate] = Candidate.list(%{"campus_id" => 3})
+
+      assert candidate.status.id == 2
+      assert candidate.status.name == "INTERESTED"
     end
 
     test "should show info for a specific candidate" do
