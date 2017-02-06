@@ -56,14 +56,11 @@ defmodule Lyceum.Core.RecordTest do
       %Lyceum.Record{candidate_id: c1.id, event_id: event.id} |> Repo.insert!
       %Lyceum.Record{candidate_id: c2.id, event_id: event.id} |> Repo.insert!
 
-      params = %{"event" => event.id}
+      params = %{"event_id" => event.id}
 
-      {:ok, record} = Record.list(%{"event_id" => event.id})
+      records = Record.list(params)
 
-      assert record.id
-      assert record.candidate_id == candidate.id
-      assert record.event_id == event.id
-      assert length(record.statuses) == 2
+      assert length(records) == 2
     end
   end
 end

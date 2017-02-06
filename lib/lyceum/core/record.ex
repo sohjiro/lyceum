@@ -1,10 +1,14 @@
 defmodule Lyceum.Core.Record do
   import Ecto
-
+  import Ecto.Query, only: [order_by: 2]
   alias Ecto.Multi
   alias Lyceum.{Repo, Record, RecordStatus, Candidate}
+  alias Lyceum.Core.Event
 
-  def index(params) do
+  def list(%{"event_id" => event_id}) do
+    with {:ok, event} <- Event.show_info(%{"id" => event_id}) do
+      event |> assoc(:records) |> order_by(:id) |> Repo.all
+    end
   end
 
   def create(params) do
