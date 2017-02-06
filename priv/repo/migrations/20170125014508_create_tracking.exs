@@ -9,9 +9,9 @@ defmodule Lyceum.Repo.Migrations.CreateTracking do
 
       timestamps()
     end
-    create index(:candidates_statuses, [:candidate_id])
-    create index(:candidates_statuses, [:status_id])
-    create index(:candidates_statuses, [:event_id])
+    create index(:tracking, [:candidate_id])
+    create index(:tracking, [:status_id])
+    create index(:tracking, [:event_id])
 
   end
 end
