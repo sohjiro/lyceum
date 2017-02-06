@@ -5,7 +5,7 @@ defmodule Lyceum.Record do
     belongs_to :candidate, Lyceum.Candidate
     belongs_to :event, Lyceum.Event
 
-    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.TrackingStatus
+    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.RecordStatus
 
     timestamps()
   end
