@@ -13,9 +13,9 @@ defmodule Lyceum.Core.Record do
     end
   end
 
-  def update(record_id, params) do
-    record = Repo.get(Record, record_id)
-    with {:ok, record_status} <- insert_status(%{record: record}, params["status"]) do
+  def update(%{"id" => id, "status" => status_id}) do
+    record = Repo.get(Record, id)
+    with {:ok, _record_status} <- insert_status(%{record: record}, status_id) do
       {:ok, Repo.preload(record, [:candidate, :statuses])}
     end
   end
