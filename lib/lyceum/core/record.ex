@@ -5,7 +5,7 @@ defmodule Lyceum.Core.Record do
   alias Lyceum.{Repo, Record, RecordStatus, Candidate}
   alias Lyceum.Core.Event
 
-  def list(%{"event_id" => event_id}) do
+  def list(%{"event" => event_id}) do
     with {:ok, event} <- Event.show_info(%{"id" => event_id}) do
       event |> assoc(:records) |> order_by(:id) |> Repo.all
     end
