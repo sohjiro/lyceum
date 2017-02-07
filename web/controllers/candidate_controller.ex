@@ -7,6 +7,12 @@ defmodule Lyceum.CandidateController do
     render(conn, "index.json", candidates: Candidate.list())
   end
 
+  def show(conn, params) do
+    with {:ok, candidate} <- Candidate.show_info(params) do
+      render(conn, "show.json", candidate: candidate)
+    end
+  end
+
   def create(conn, %{"candidate" => candidate_params}) do
     with {:ok, candidate} <- Candidate.create(candidate_params) do
       conn
