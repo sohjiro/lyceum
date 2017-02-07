@@ -19,7 +19,7 @@ defmodule Lyceum.EventView do
       campus: event.campus_id,
       subject: event.subject_id,
       links: %{
-        "records": "#{event.id}/records"
+        "records": "records"
       }
     }
   end
