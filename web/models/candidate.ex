@@ -6,7 +6,6 @@ defmodule Lyceum.Candidate do
     field :degree, :string
     field :email, :string
     field :telephone, :string
-    field :observations, :string
 
     has_many :records, Lyceum.Record
 
@@ -18,7 +17,7 @@ defmodule Lyceum.Candidate do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :degree, :email, :telephone, :observations])
+    |> cast(params, [:name, :degree, :email, :telephone])
     |> validate_required([:name, :email])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
