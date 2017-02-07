@@ -7,7 +7,6 @@ defmodule Lyceum.Repo.Migrations.CreateCandidate do
       add :degree, :string
       add :email, :string
       add :telephone, :string
-      add :observations, :string
 
       timestamps()
     end
