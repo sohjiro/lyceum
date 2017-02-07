@@ -6,7 +6,7 @@ defmodule Lyceum.RecordView do
   end
 
   def render("show.json", %{record: record}) do
-    %{candidate: render_one(candidate, Lyceum.RecordView, "record.json")}
+    %{record: render_one(record, Lyceum.RecordView, "record.json")}
   end
 
   def render("record.json", %{record: record}) do
