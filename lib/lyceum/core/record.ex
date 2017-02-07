@@ -2,10 +2,10 @@ defmodule Lyceum.Core.Record do
   import Ecto
   import Ecto.Query, only: [order_by: 2]
   alias Ecto.Multi
-  alias Lyceum.{Repo, Record, RecordStatus, Candidate}
+  alias Lyceum.{Repo, Record, RecordStatus}
   alias Lyceum.Core.Event
 
-  def list(%{"event" => event_id}) do
+  def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Event.show_info(%{"id" => event_id}) do
       event |> assoc(:records) |> order_by(:id) |> Repo.all
     end
@@ -27,20 +27,12 @@ defmodule Lyceum.Core.Record do
     end
   end
 
-  defp insert_record(params) do
-    candidate_changeset = Candidate.changeset(%Candidate{}, params)
+  defp insert_record(%{"event" => event_id, "candidate" => candidate_id, "status" => status_id}) do
+    record_changeset = Record.changeset(%Record{}, %{event_id: event_id, candidate_id: candidate_id})
     Multi.new
-    |> Multi.insert(:candidate, candidate_changeset)
-    |> Multi.run(:record, &insert_record(&1, params["event"]))
-    |> Multi.run(:status, &insert_status(&1, params["status"]))
+    |> Multi.insert(:record, record_changeset)
+    |> Multi.run(:status, &insert_status(&1, status_id))
     |> Repo.transaction
-  end
-
-  defp insert_record(%{candidate: candidate}, event_id) do
-    candidate
-    |> build_assoc(:records)
-    |> Record.changeset(%{event_id: event_id})
-    |> Repo.insert
   end
 
   defp insert_status(%{record: record}, status_id) do
