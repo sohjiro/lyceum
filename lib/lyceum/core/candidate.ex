@@ -3,4 +3,10 @@ defmodule Lyceum.Core.Candidate do
 
   def list, do: Repo.all(Candidate)
 
+  def create(params) do
+    %Candidate{}
+    |> Candidate.changeset(params)
+    |> Repo.insert
+  end
+
 end
