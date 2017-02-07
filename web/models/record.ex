@@ -4,6 +4,7 @@ defmodule Lyceum.Record do
   schema "records" do
     belongs_to :candidate, Lyceum.Candidate
     belongs_to :event, Lyceum.Event
+    field :observations, :string
 
     many_to_many :statuses, Lyceum.Status, join_through: Lyceum.RecordStatus
 
@@ -17,6 +18,7 @@ defmodule Lyceum.Record do
     struct
     |> cast(params, [:candidate_id, :event_id])
     |> validate_required([:candidate_id, :event_id])
+    |> unique_constraint(:candidate_id, name: :candidate_event)
   end
 
 end
