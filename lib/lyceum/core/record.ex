@@ -1,13 +1,13 @@
 defmodule Lyceum.Core.Record do
   import Ecto
-  import Ecto.Query, only: [order_by: 2]
+  import Ecto.Query, only: [order_by: 2, preload: 2]
   alias Ecto.Multi
   alias Lyceum.{Repo, Record, RecordStatus}
   alias Lyceum.Core.Event
 
   def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Event.show_info(%{"id" => event_id}) do
-      event |> assoc(:records) |> order_by(:id) |> Repo.all
+      event |> assoc(:records) |> order_by(:id) |> preload(:statuses) |> Repo.all
     end
   end
 

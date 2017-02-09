@@ -12,8 +12,11 @@ defmodule Lyceum.RecordView do
   def render("record.json", %{record: record}) do
     %{
       id: record.id,
-      candidate_id: record.candidate_id,
-      event_id: record.event_id
+      candidate: record.candidate_id,
+      event: record.event_id,
+      links: %{
+        "statuses": "statuses"
+      }
     }
   end
 

@@ -6,7 +6,7 @@ defmodule Lyceum.Record do
     belongs_to :event, Lyceum.Event
     field :observations, :string
 
-    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.RecordStatus
+    has_many :statuses, Lyceum.RecordStatus
 
     timestamps()
   end
