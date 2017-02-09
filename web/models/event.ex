@@ -6,7 +6,7 @@ defmodule Lyceum.Event do
     field :quorum, :integer
     field :price, :float
 
-    has_many :candidates, Lyceum.Candidate
+    has_many :records, Lyceum.Record
 
     belongs_to :type, Lyceum.Type
     belongs_to :campus, Lyceum.Campus

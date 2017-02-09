@@ -6,12 +6,8 @@ defmodule Lyceum.Candidate do
     field :degree, :string
     field :email, :string
     field :telephone, :string
-    field :observations, :string
-    belongs_to :event, Lyceum.Event
 
-    many_to_many :statuses, Lyceum.Status, join_through: Lyceum.CandidateStatus
-
-    field :status, :any, virtual: true
+    has_many :records, Lyceum.Record
 
     timestamps()
   end
@@ -21,9 +17,10 @@ defmodule Lyceum.Candidate do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name, :degree, :email, :telephone, :observations, :event_id])
-    |> validate_required([:name, :email, :event_id])
+    |> cast(params, [:name, :degree, :email, :telephone])
+    |> validate_required([:name, :email])
     |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:email)
   end
 
 end
