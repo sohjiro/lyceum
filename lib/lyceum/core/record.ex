@@ -20,8 +20,12 @@ defmodule Lyceum.Core.Record do
     end
   end
 
-  defp insert_record(%{"event" => event_id, "candidate" => candidate_id}) do
-    record_changeset = Record.changeset(%Record{}, %{event_id: event_id, candidate_id: candidate_id})
+  defp insert_record(%{"event" => event_id, "candidate" => candidate_id} = params) do
+    params = params
+             |> Map.put("event_id", event_id)
+             |> Map.put("candidate_id", candidate_id)
+
+    record_changeset = Record.changeset(%Record{}, params)
     Multi.new
     |> Multi.insert(:record, record_changeset)
     |> Repo.transaction
