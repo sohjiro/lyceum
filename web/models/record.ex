@@ -16,7 +16,7 @@ defmodule Lyceum.Record do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:candidate_id, :event_id])
+    |> cast(params, [:candidate_id, :event_id, :observations])
     |> validate_required([:candidate_id, :event_id])
     |> unique_constraint(:candidate_id, name: :candidate_event)
   end
