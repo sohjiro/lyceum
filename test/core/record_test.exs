@@ -2,42 +2,20 @@ defmodule Lyceum.Core.RecordTest do
   use Lyceum.ModelCase
 
   alias Lyceum.Core.Record
-  alias Lyceum.{Event, Status, Candidate, RecordStatus}
+  alias Lyceum.{Event, Candidate}
 
   describe "Record flow" do
     test "Add a record to an event" do
       event = %Event{type_id: 1} |> Repo.insert!
       candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
-      status = Repo.get_by(Status, name: "INFORM")
 
-      params = %{"event" => event.id,
-                 "candidate" => candidate.id,
-                 "status" => status.id
-                }
+      params = %{"event" => event.id, "candidate" => candidate.id}
 
       {:ok, record} = Record.create(params)
 
       assert record.id
       assert record.candidate_id == candidate.id
       assert record.event_id == event.id
-      assert length(record.statuses) == 1
-    end
-
-    test "Update status for a record" do
-      event = %Event{type_id: 1} |> Repo.insert!
-      candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
-      status = Repo.get_by(Status, name: "INFORM")
-      record = %Lyceum.Record{candidate_id: candidate.id, event_id: event.id} |> Repo.insert!
-      %RecordStatus{record_id: record.id, status_id: status.id} |> Repo.insert!
-
-      params = %{"status" => 2, "id" => record.id}
-
-      {:ok, record} = Record.update(params)
-
-      assert record.id
-      assert record.candidate_id == candidate.id
-      assert record.event_id == event.id
-      assert length(record.statuses) == 2
     end
 
     test "Show records for an event" do
