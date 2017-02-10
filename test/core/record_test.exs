@@ -9,13 +9,27 @@ defmodule Lyceum.Core.RecordTest do
       event = %Event{type_id: 1} |> Repo.insert!
       candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
 
-      params = %{"event" => event.id, "candidate" => candidate.id}
+      params = %{"event" => event.id, "candidate" => candidate.id, }
 
       {:ok, record} = Record.create(params)
 
       assert record.id
       assert record.candidate_id == candidate.id
       assert record.event_id == event.id
+    end
+
+    test "Add a record with observations to an event" do
+      event = %Event{type_id: 1} |> Repo.insert!
+      candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
+
+      params = %{"event" => event.id, "candidate" => candidate.id, "observations" => "some observations"}
+
+      {:ok, record} = Record.create(params)
+
+      assert record.id
+      assert record.candidate_id == candidate.id
+      assert record.event_id == event.id
+      assert record.observations == "some observations"
     end
 
     test "Show records for an event" do
