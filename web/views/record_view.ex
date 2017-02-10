@@ -14,8 +14,9 @@ defmodule Lyceum.RecordView do
       id: record.id,
       candidate: record.candidate_id,
       event: record.event_id,
+      observations: record.observations,
       links: %{
-        "statuses": "statuses"
+        "record-status": "records_statuses"
       }
     }
   end
