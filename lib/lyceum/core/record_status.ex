@@ -11,12 +11,11 @@ defmodule Lyceum.Core.RecordStatus do
 
   def create(params) do
     params = params |> parse_params
-    current_status = params |> list |> current_status
 
-    case duplicated?(current_status, params) do
-      {:same, status} -> {:ok, status}
-      {:insert, changeset} -> Repo.insert(changeset)
-    end
+    params
+    |> list
+    |> current_status
+    |> handle_record(params)
   end
 
   defp parse_params(%{"record" => record_id, "status" => status_id}) do
@@ -26,16 +25,18 @@ defmodule Lyceum.Core.RecordStatus do
   defp current_status([]), do: nil
   defp current_status([current | _rest]), do: current
 
-  defp duplicated?(%{status_id: status_id, record_id: record_id} = status, params) do
+  defp handle_record(%{status_id: status_id, record_id: record_id} = status, params) do
     case status_id == params["status_id"] && record_id == params["record_id"] do
-      true -> {:same, status}
-      false -> {:insert, prepare_changeset(params)}
+      true -> {:ok, status}
+      false -> params |> insert_record
     end
   end
-  defp duplicated?(nil, params), do: {:insert, prepare_changeset(params)}
+  defp handle_record(nil, params), do: params |> insert_record
 
-  defp prepare_changeset(params) do
-    RecordStatus.changeset(%RecordStatus{}, params)
+  defp insert_record(params) do
+    %RecordStatus{}
+    |> RecordStatus.changeset(params)
+    |> Repo.insert
   end
 
 end
