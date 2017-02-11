@@ -10,9 +10,18 @@ defmodule Lyceum.Core.RecordStatus do
   end
 
   def create(%{"record" => record_id, "status" => status_id}) do
-    %RecordStatus{}
-    |> RecordStatus.changeset(%{status_id: status_id, record_id: record_id})
-    |> Repo.insert
+    last_record = %{"record_id" => record_id}
+                  |> list
+                  |> hd
+
+    cond do
+      last_record.status_id == status_id && last_record.record_id == record_id ->
+        {:ok, last_record}
+      true ->
+        %RecordStatus{}
+        |> RecordStatus.changeset(%{status_id: status_id, record_id: record_id})
+        |> Repo.insert
+    end
   end
 
 end
