@@ -4,8 +4,7 @@ defmodule Lyceum.RecordStatusController do
   alias Lyceum.Core.RecordStatus
 
   def index(conn, params) do
-    IO.inspect params
-    render(conn, "show.json", records_statuses: [])
+    render(conn, "index.json", records_statuses: RecordStatus.list(params))
   end
 
   def create(conn, %{"recordStatus" => params}) do
