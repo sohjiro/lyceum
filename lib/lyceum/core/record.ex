@@ -8,7 +8,7 @@ defmodule Lyceum.Core.Record do
   def info(%{"record_id" => id}) do
     case Repo.get(Record, id) do
       nil -> {:error, :not_found}
-      record -> {:ok, record}
+      record -> {:ok, Repo.preload(record, [:candidate, :statuses])}
     end
   end
 

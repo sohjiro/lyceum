@@ -7,6 +7,17 @@ defmodule Lyceum.RecordController do
     render(conn, "index.json", records: Record.list(params))
   end
 
+  def show(conn, %{"id" => id}) do
+    with {:ok, record} <- Record.info(%{"record_id" => id}) do
+      render(conn, "show.json", record: record)
+    else
+      _ ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{errors: %{code: "LYC-0001", message: "Bad parameters"}})
+    end
+  end
+
   def create(conn, %{"record" => params}) do
     with {:ok, record} <- Record.create(params) do
       conn
