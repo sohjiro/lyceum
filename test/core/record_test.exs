@@ -51,7 +51,7 @@ defmodule Lyceum.Core.RecordTest do
       candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
       record = %Lyceum.Record{event_id: event.id, candidate_id: candidate.id, observations: "Some observations"} |> Repo.insert!
 
-      params = %{"id" => record.id, "observations" => "new observations"}
+      params = %{"id" => record.id, "record" => %{"observations" => "new observations"}}
 
       {:ok, record} = Record.update(params)
 
