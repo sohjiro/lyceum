@@ -45,5 +45,20 @@ defmodule Lyceum.Core.RecordTest do
 
       assert length(records) == 2
     end
+
+    test "Updating a record" do
+      event = %Event{type_id: 1} |> Repo.insert!
+      candidate = %Candidate{name: "Name lastname"} |> Repo.insert!
+      record = %Lyceum.Record{event_id: event.id, candidate_id: candidate.id, observations: "Some observations"} |> Repo.insert!
+
+      params = %{"id" => record.id, "record" => %{"observations" => "new observations"}}
+
+      {:ok, record} = Record.update(params)
+
+      assert record.id == record.id
+      assert record.candidate_id == candidate.id
+      assert record.event_id == event.id
+      assert record.observations == "new observations"
+    end
   end
 end
