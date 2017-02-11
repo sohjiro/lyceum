@@ -18,6 +18,17 @@ defmodule Lyceum.Core.Record do
     end
   end
 
+  def update(%{"id" => record_id} = params) do
+    with {:ok, record} <- info(%{"record_id" => record_id}) do
+      record
+      |> Record.changeset(params)
+      |> Repo.update
+    else
+      _ ->
+        %{status: :bad_request, code: "LYC-0002", message: "Bad parameters"}
+    end
+  end
+
   def create(params) do
     with {:ok, %{record: record}} <- insert_record(params) do
       {:ok, Repo.preload(record, [:candidate, :statuses])}
