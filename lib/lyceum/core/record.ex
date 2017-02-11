@@ -5,6 +5,13 @@ defmodule Lyceum.Core.Record do
   alias Lyceum.{Repo, Record}
   alias Lyceum.Core.Event
 
+  def info(%{"record_id" => id}) do
+    case Repo.get(Record, id) do
+      nil -> {:error, :not_found}
+      record -> {:ok, record}
+    end
+  end
+
   def list(%{"event_id" => event_id}) do
     with {:ok, event} <- Event.show_info(%{"id" => event_id}) do
       event |> assoc(:records) |> order_by(:id) |> preload(:statuses) |> Repo.all
