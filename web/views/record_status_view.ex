@@ -13,7 +13,8 @@ defmodule Lyceum.RecordStatusView do
     %{
       id: record_status.id,
       status: record_status.status_id,
-      record: record_status.record_id
+      record: record_status.record_id,
+      inserted_at: record_status.inserted_at
     }
   end
 
