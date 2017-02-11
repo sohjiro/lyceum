@@ -34,7 +34,6 @@ defmodule Lyceum.Core.RecordStatus do
   defp handle_record(nil, params), do: params |> insert_record
 
   defp insert_record(params) do
-    IO.inspect "inserting record"
     %RecordStatus{}
     |> RecordStatus.changeset(params)
     |> Repo.insert
