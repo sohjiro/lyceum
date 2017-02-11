@@ -18,7 +18,7 @@ defmodule Lyceum.Core.Record do
     end
   end
 
-  def update(%{"id" => record_id} = params) do
+  def update(params) do
     with {:ok, record} <- update_record(params) do
       {:ok, Repo.preload(record, [:candidate, :statuses])}
     else
@@ -47,7 +47,7 @@ defmodule Lyceum.Core.Record do
     |> Repo.transaction
   end
 
-  defp update_record(%{"id" => record_id} = params) do
+  defp update_record(%{"id" => record_id, "record" => params}) do
     with {:ok, record} <- info(%{"record_id" => record_id}) do
       record
       |> Record.changeset(params)
