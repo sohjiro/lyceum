@@ -22,7 +22,7 @@ defmodule Lyceum.Core.RecordStatusTest do
       record = %Lyceum.Record{candidate_id: candidate.id} |> Repo.insert!
       %Lyceum.RecordStatus{status_id: 1, record_id: record.id} |> Repo.insert!
 
-      params = %{"status" => 1, "record" => record.id}
+      params = %{"status" => "1", "record" => "#{record.id}"}
 
       {:ok, record_status} = RecordStatus.create(params)
 
