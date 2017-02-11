@@ -31,8 +31,8 @@ defmodule Lyceum.RecordController do
     end
   end
 
-  def update(conn, %{"id" => id, "record" => params}) do
-    with {:ok, record} <- Record.update(id, params) do
+  def update(conn, params) do
+    with {:ok, record} <- Record.update(params) do
       conn
       |> put_status(:accepted)
       |> render("show.json", record: record)
