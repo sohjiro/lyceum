@@ -12,7 +12,7 @@ defmodule Lyceum.Core.Candidate do
   def show_info(%{"id" => id}) do
     case Repo.get(Candidate, id) do
       nil -> {:error, :not_found}
-      candidate -> {:ok, candidate}
+      candidate -> {:ok, Repo.preload(candidate, [:records, records: [:event, :statuses] ])}
     end
   end
 
