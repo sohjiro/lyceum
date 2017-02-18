@@ -20,6 +20,14 @@ defmodule Lyceum.Core.CandidateTest do
       assert candidate.email == "name_lastname@domain.com"
       assert candidate.telephone == "1234567890"
     end
+
+    test "should list all candidates" do
+      %Lyceum.Candidate{} |> Repo.insert!
+
+      candidates = Candidate.list(%{})
+
+      assert length(candidates) > 0
+    end
   end
 
 end
