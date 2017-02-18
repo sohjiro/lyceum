@@ -3,8 +3,8 @@ defmodule Lyceum.CandidateController do
 
   alias Lyceum.Core.Candidate
 
-  def index(conn, _params) do
-    render(conn, "index.json", candidates: Candidate.list())
+  def index(conn, params) do
+    render(conn, "index.json", candidates: Candidate.list(params))
   end
 
   def show(conn, params) do
