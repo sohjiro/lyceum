@@ -15,7 +15,10 @@ defmodule Lyceum.CandidateView do
       name: candidate.name,
       degree: candidate.degree,
       email: candidate.email,
-      telephone: candidate.telephone
+      telephone: candidate.telephone,
+      links: %{
+        "records": "records"
+      }
     }
   end
 
