@@ -5,7 +5,7 @@ defmodule Lyceum.Campus do
     field :name, :string
 
     has_many :events, Lyceum.Event
-    has_many :candidates, through: [:events, :candidates]
+    has_many :candidates, through: [:events, :records, :candidate]
 
     timestamps()
   end
