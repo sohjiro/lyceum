@@ -1,7 +1,14 @@
 defmodule Lyceum.Core.Candidate do
+  import Ecto.Query, only: [from: 2]
   alias Lyceum.{Repo, Candidate}
 
-  def list, do: Repo.all(Candidate)
+  def list(%{"term" => term}) do
+    term
+    |> parse_term
+    |> generate_query
+    |> find_all
+  end
+  def list(_params), do: Candidate |> find_all
 
   def create(params) do
     %Candidate{}
@@ -15,5 +22,9 @@ defmodule Lyceum.Core.Candidate do
       candidate -> {:ok, Repo.preload(candidate, [:records, records: [:event, :statuses] ])}
     end
   end
+
+  defp parse_term(term), do: "%#{term}%"
+  defp generate_query(term), do: from(c in Candidate, where: ilike(c.name, ^term))
+  defp find_all(query), do: query |> Repo.all
 
 end
