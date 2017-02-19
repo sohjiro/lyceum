@@ -1,4 +1,5 @@
 defmodule Lyceum.Core.Candidate do
+  import Ecto, only: [assoc: 2]
   import Ecto.Query, only: [from: 2]
   alias Lyceum.{Repo, Candidate}
 
@@ -7,6 +8,12 @@ defmodule Lyceum.Core.Candidate do
     |> parse_term
     |> generate_query
     |> find_all
+  end
+  def list(%{"campus_id" => campus_id}) do
+    Lyceum.Campus
+    |> Repo.get(campus_id)
+    |> assoc(:candidates)
+    |> Repo.all
   end
   def list(_params), do: Candidate |> find_all
 
