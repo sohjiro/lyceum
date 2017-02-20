@@ -36,6 +36,7 @@ defmodule Lyceum.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
+     {:swoosh, "~> 0.6.0"},
      {:edeliver, "~> 1.4.0"},
      {:distillery, "~> 1.0", warn_missing: false, runtime: false},
      {:cors_plug, "~> 1.1"}
