@@ -32,5 +32,5 @@ config :lyceum, Lyceum.Repo,
 
 config :lyceum, Lyceum.Mailer,
   adapter: Swoosh.Adapters.Mailgun,
-  api_key: System.get_env("MAILGUN_API_KEY")
+  api_key: System.get_env("MAILGUN_API_KEY"),
   domain: System.get_env("MAILGUN_DOMAIN")
