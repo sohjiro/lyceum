@@ -17,3 +17,6 @@ config :lyceum, Lyceum.Repo,
   database: "lyceum_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :lyceum, Lyceum.Mailer,
+  adapter: Swoosh.Adapters.Test
