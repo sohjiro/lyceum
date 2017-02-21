@@ -30,4 +30,7 @@ config :lyceum, Lyceum.Repo,
   hostname: "localhost",
   pool_size: 10
 
-import_config "dev.secret.exs"
+config :lyceum, Lyceum.Mailer,
+  adapter: Swoosh.Adapters.Mailgun,
+  api_key: System.get_env("MAILGUN_API_KEY")
+  domain: System.get_env("MAILGUN_DOMAIN")
