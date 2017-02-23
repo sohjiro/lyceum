@@ -9,11 +9,11 @@ defmodule Lyceum.Core.MailTest do
 
       params = %{"mail" =>
                   %{"to" => "kobain@nirvana.com",
-                    "subject": "asdfasdf",
-                    "body": "<p>enjoy</p>"
+                    "subject" => "asdfasdf",
+                    "body" => "<p>enjoy</p>"
                    }
                 }
-      {:ok, sended} = Mail.send(params)
+      {:ok, _sended} = Mail.send_mail(params)
 
       assert_email_sent [subject: "asdfasdf", to: "kobain@nirvana.com"]
     end
