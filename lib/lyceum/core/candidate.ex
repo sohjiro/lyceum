@@ -15,6 +15,12 @@ defmodule Lyceum.Core.Candidate do
     |> assoc(:candidates)
     |> Repo.all
   end
+  def list(%{"event_id" => event_id}) do
+    Lyceum.Event
+    |> Repo.get(event_id)
+    |> assoc(:candidates)
+    |> Repo.all
+  end
   def list(_params), do: Candidate |> find_all
 
   def create(params) do
