@@ -1,11 +1,11 @@
 defmodule Lyceum.Core.MailTest do
   use Lyceum.ModelCase
-  import Swoosh.TestAssertions
+  # import Swoosh.TestAssertions
 
   alias Lyceum.Core.Mail
 
   describe "Mail event flow" do
-    test "should send email for listing mails" do
+    test "should prepare email for to" do
       u1 = %Lyceum.Candidate{email: "kobain@nirvana.com", name: "Kurt"} |> Repo.insert!
 
       params = %{"to" => "#{u1.id}",
@@ -13,9 +13,12 @@ defmodule Lyceum.Core.MailTest do
                  "body" => "<p>enjoy</p>"
                 }
 
-      {:ok, _sended} = Mail.send_mail(params)
+      mail = Mail.prepare_mail(params)
 
-      assert_email_sent [subject: "asdfasdf", to: [{"Kurt", "kobain@nirvana.com"}]]
+      assert mail.to == [{"Kurt", "kobain@nirvana.com"}]
+      assert mail.subject == "asdfasdf"
+      assert mail.from == {"test", "test@lyceum.com"}
+      # assert_email_sent [subject: "asdfasdf", to: [{"Kurt", "kobain@nirvana.com"}]]
     end
   end
 

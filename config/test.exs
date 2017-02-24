@@ -20,3 +20,6 @@ config :lyceum, Lyceum.Repo,
 
 config :lyceum, Lyceum.Mailer,
   adapter: Swoosh.Adapters.Test
+
+config :lyceum,
+       remitent: {"test", "test@lyceum.com"}
