@@ -18,6 +18,7 @@ defmodule Lyceum.Core.MailTest do
       assert mail.to == [{"Kurt", "kobain@nirvana.com"}]
       assert mail.subject == "asdfasdf"
       assert mail.from == {"test", "test@lyceum.com"}
+      assert mail.bcc == [{"admin1", "admin1@lyceum.com"}, {"admin2", "admin2@lyceum.com"}]
       # assert_email_sent [subject: "asdfasdf", to: [{"Kurt", "kobain@nirvana.com"}]]
     end
   end

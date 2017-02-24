@@ -3,10 +3,12 @@ defmodule Lyceum.Core.Mail do
   import Swoosh.Email, except: [from: 2]
   alias Lyceum.{Repo, Candidate}
   @remitent Application.get_env(:lyceum, :remitent)
+  @bcc Application.get_env(:lyceum, :bcc)
 
   def prepare_mail(%{"to" => to, "subject" => subject, "body" => body}) do
     new()
     |> add_to(to)
+    |> bcc(@bcc)
     |> Swoosh.Email.from(@remitent)
     |> subject(subject)
     |> html_body(body)
