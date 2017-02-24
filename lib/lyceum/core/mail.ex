@@ -10,8 +10,13 @@ defmodule Lyceum.Core.Mail do
     |> split
     |> find_candidates
     |> format_to
-    |> Enum.map(&prepare_mail(&1, subject, body))
-    |> Enum.map(fn(mail) -> Lyceum.Mailer.deliver(mail) end)
+    |> Enum.map(&Task.async(Lyceum.Core.Mail, :do_send_mail, [&1, subject, body]))
+    |> Enum.map(&Task.await(&1))
+  end
+  def do_send_mail(to, subject, body) do
+    to
+    |> prepare_mail(subject, body)
+    |> Lyceum.Mailer.deliver
   end
 
   defp prepare_mail(to, subject, body) do
@@ -35,6 +40,5 @@ defmodule Lyceum.Core.Mail do
   defp find_candidates(ids), do: Candidate |> where([c], c.id in ^ids) |> Repo.all
   defp format_to(candidates), do: candidates |> Enum.map(&info_candidate/1)
   defp info_candidate(candidate), do: {candidate.name, candidate.email}
-  defp add_to_mail(data_mails, email), do: email |> to(data_mails)
 
 end
