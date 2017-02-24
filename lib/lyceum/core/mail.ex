@@ -3,17 +3,16 @@ defmodule Lyceum.Core.Mail do
   import Swoosh.Email, except: [from: 2]
   alias Lyceum.{Repo, Candidate}
 
-  def send_mail(%{"mail" => params}) do
+  def send_mail(%{"to" => to, "subject" => subject, "body" => body}) do
     new()
-    |> add_to(params)
+    |> add_to(to)
     |> Swoosh.Email.from({"Dr B Banner", "hulk.smash@example.com"})
-    |> subject(params["subject"])
-    |> html_body(params["body"])
-    |> text_body("some text")
+    |> subject(subject)
+    |> html_body(body)
     |> Lyceum.Mailer.deliver
   end
 
-  defp add_to(email, %{"to" => ids}) do
+  defp add_to(email, ids) do
     ids
     |> split
     |> find_candidates
