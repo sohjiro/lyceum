@@ -17,16 +17,14 @@ defmodule Lyceum.Core.Mail do
     ids
     |> split
     |> find_candidates
-    |> format
-    |> mail_add_to(email)
+    |> format_to
+    |> add_to_mail(email)
   end
 
   defp split(ids), do: ids |> String.split(",")
-  defp find_candidates(ids) do
-    from(c in Candidate, where: c.id in ^ids) |> Repo.all
-  end
-
-  defp format(candidates), do: candidates |> Enum.map(fn(c) -> {c.name, c.email} end)
-  defp mail_add_to(data_mails, email), do: email |> to(data_mails)
+  defp find_candidates(ids), do: Candidate |> where([c], c.id in ^ids) |> Repo.all
+  defp format_to(candidates), do: candidates |> Enum.map(&info_candidate/1)
+  defp info_candidate(candidate), do: {candidate.name, candidate.email}
+  defp add_to_mail(data_mails, email), do: email |> to(data_mails)
 
 end
