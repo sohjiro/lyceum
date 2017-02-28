@@ -20,3 +20,7 @@ config :lyceum, Lyceum.Repo,
 
 config :lyceum, Lyceum.Mailer,
   adapter: Swoosh.Adapters.Test
+
+config :lyceum,
+  remitent: {"test", "test@lyceum.com"},
+  bcc: [{"admin1", "admin1@lyceum.com"}, {"admin2", "admin2@lyceum.com"}]

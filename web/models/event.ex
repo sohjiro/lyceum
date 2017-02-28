@@ -7,6 +7,7 @@ defmodule Lyceum.Event do
     field :price, :float
 
     has_many :records, Lyceum.Record
+    has_many :candidates, through: [:records, :candidate]
 
     belongs_to :type, Lyceum.Type
     belongs_to :campus, Lyceum.Campus

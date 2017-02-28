@@ -57,6 +57,22 @@ defmodule Lyceum.Core.CandidateTest do
 
       assert length(candidates) == 2
     end
+
+    test "should list all candidates for an specified event" do
+      c1 = %Lyceum.Candidate{name: "Some user"} |> Repo.insert!
+      %Lyceum.Candidate{name: "user"} |> Repo.insert!
+      %Lyceum.Candidate{name: "none"} |> Repo.insert!
+
+      event = %Lyceum.Event{} |> Repo.insert!
+
+      %Lyceum.Record{candidate_id: c1.id, event_id: event.id} |> Repo.insert!
+
+      params = %{"event_id" => "#{event.id}"}
+
+      candidates = Candidate.list(params)
+
+      assert length(candidates) == 1
+    end
   end
 
 end

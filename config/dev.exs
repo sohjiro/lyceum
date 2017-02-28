@@ -31,6 +31,8 @@ config :lyceum, Lyceum.Repo,
   pool_size: 10
 
 config :lyceum, Lyceum.Mailer,
-  adapter: Swoosh.Adapters.Mailgun,
-  api_key: System.get_env("MAILGUN_API_KEY"),
-  domain: System.get_env("MAILGUN_DOMAIN")
+  adapter: Swoosh.Adapters.Local
+
+config :lyceum,
+  remitent: {"info", "info@lyceum.com"},
+  bcc: Code.string_to_quoted!(System.get_env("BCC"))

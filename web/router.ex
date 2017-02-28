@@ -5,8 +5,16 @@ defmodule Lyceum.Router do
     plug :accepts, ["json"]
   end
 
+  if Mix.env == :dev do
+    scope "/dev" do
+      forward "/mailbox", Plug.Swoosh.MailboxPreview, [base_path: "/dev/mailbox"]
+    end
+  end
+
   scope "/api/v1", Lyceum do
     pipe_through :api
+
+    resources "/mails", MailController, only: [:create]
 
     resources "/events", EventController, only: [:index, :create, :show] do
       resources "/records", RecordController, only: [:index]
