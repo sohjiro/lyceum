@@ -5,12 +5,21 @@ defmodule Lyceum.Core.Mail do
   @remitent Application.get_env(:lyceum, :remitent)
   @bcc Application.get_env(:lyceum, :bcc)
 
-  def send_mail(params) do
-    %Mail{}
-    |> Ecto.Changeset.change(bcc: Enum.join(@bcc, ","))
-    |> Mail.changeset(params)
-    |> Repo.insert
+  def send_mail_flow(params) do
+    params
+    |> prepare_changeset
+    |> insert_mail
+  end
 
+  defp prepare_changeset(params) do
+    %Mail{}
+    |> Ecto.Changeset.change(bcc: format_bcc)
+    |> Mail.changeset(params)
+  end
+
+  defp format_bcc, do: @bcc |> Stream.map(fn({_name, mail}) -> mail end) |> Enum.join(",")
+
+  defp insert_mail(changeset), do: changeset |> Repo.insert
 
     # to
     # |> split
@@ -18,7 +27,7 @@ defmodule Lyceum.Core.Mail do
     # |> format_to
     # |> Enum.map(&Task.async(Lyceum.Core.Mail, :do_send_mail, [&1, subject, body]))
     # |> Enum.map(&Task.await(&1))
-  end
+
   def do_send_mail(to, subject, body) do
     to
     |> prepare_mail(subject, body)

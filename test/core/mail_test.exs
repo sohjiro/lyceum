@@ -1,6 +1,5 @@
 defmodule Lyceum.Core.MailTest do
   use Lyceum.ModelCase
-  # import Swoosh.TestAssertions
 
   alias Lyceum.Core.Mail
 
@@ -13,7 +12,7 @@ defmodule Lyceum.Core.MailTest do
                  "body" => "<p>enjoy</p>"
                 }
 
-      {:ok, mail} = Mail.send_mail(params)
+      {:ok, mail} = Mail.send_mail_flow(params)
 
       assert mail.id
       assert mail.subject == "asdfasdf"

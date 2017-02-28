@@ -23,4 +23,4 @@ config :lyceum, Lyceum.Mailer,
 
 config :lyceum,
   remitent: {"test", "test@lyceum.com"},
-  bcc: ["admin1@lyceum.com", "admin2@lyceum.com"]
+  bcc: [{"admin1", "admin1@lyceum.com"}, {"admin2", "admin2@lyceum.com"}]
