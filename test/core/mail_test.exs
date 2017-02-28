@@ -13,9 +13,12 @@ defmodule Lyceum.Core.MailTest do
                  "body" => "<p>enjoy</p>"
                 }
 
-      mails = Mail.send_mail(params)
+      {:ok, mail} = Mail.send_mail(params)
 
-      assert length(mails) == 2
+      assert mail.id
+      assert mail.subject == "asdfasdf"
+      assert mail.bcc == "admin1@lyceum.com,admin2@lyceum.com"
+      assert mail.body == "<p>enjoy</p>"
     end
   end
 
