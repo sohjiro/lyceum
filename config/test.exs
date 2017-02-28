@@ -19,8 +19,8 @@ config :lyceum, Lyceum.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :lyceum, Lyceum.Mailer,
-  adapter: Swoosh.Adapters.Test
+  adapter: Swoosh.Adapters.Local
 
 config :lyceum,
   remitent: {"test", "test@lyceum.com"},
-  bcc: [{"admin1", "admin1@lyceum.com"}, {"admin2", "admin2@lyceum.com"}]
+  bcc: ["admin1@lyceum.com", "admin2@lyceum.com"]
