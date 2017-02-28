@@ -16,7 +16,6 @@ defmodule Lyceum.Core.MailTest do
       mails = Mail.send_mail(params)
 
       assert length(mails) == 2
-      assert Keyword.get_values(mails, :error) == []
     end
   end
 
