@@ -5,7 +5,6 @@ defmodule Lyceum.Repo.Migrations.CreateMailCandidate do
     create table(:mails_candidates) do
       add :mail_id, references(:mails, on_delete: :nothing)
       add :candidate_id, references(:candidates, on_delete: :nothing)
-      add :status, :string
 
       timestamps()
     end

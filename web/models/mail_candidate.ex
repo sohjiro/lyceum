@@ -4,7 +4,6 @@ defmodule Lyceum.MailCandidate do
   schema "mails_candidates" do
     belongs_to :mail, Lyceum.Mail
     belongs_to :candidate, Lyceum.Candidate
-    field :status, :string
 
     timestamps()
   end
