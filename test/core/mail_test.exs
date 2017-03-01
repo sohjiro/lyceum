@@ -18,6 +18,7 @@ defmodule Lyceum.Core.MailTest do
       assert mail.subject == "asdfasdf"
       assert mail.bcc == "admin1@lyceum.com,admin2@lyceum.com"
       assert mail.body == "<p>enjoy</p>"
+      # assert length(mail.mails_users) == 2
     end
   end
 

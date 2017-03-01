@@ -6,6 +6,8 @@ defmodule Lyceum.Mail do
     field :bcc, :string
     field :body, :string
 
+    has_many :to, Lyceum.MailCandidate
+
     timestamps()
   end
 

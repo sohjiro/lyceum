@@ -1,14 +1,23 @@
 defmodule Lyceum.Core.Mail do
   import Ecto.Query
+  alias Ecto.Multi
   import Swoosh.Email, except: [from: 2]
   alias Lyceum.{Repo, Candidate, Mail}
   @remitent Application.get_env(:lyceum, :remitent)
   @bcc Application.get_env(:lyceum, :bcc)
 
   def send_mail_flow(params) do
-    params
-    |> prepare_changeset
-    |> insert_mail
+    with {:ok, %{mail: mail}} <- insert_email(params) do
+      {:ok, mail}
+    end
+  end
+
+  defp insert_email(params) do
+    mail_changeset = params |> prepare_changeset
+
+    Multi.new
+    |> Multi.insert(:mail, mail_changeset)
+    |> Repo.transaction
   end
 
   defp prepare_changeset(params) do
@@ -21,31 +30,27 @@ defmodule Lyceum.Core.Mail do
 
   defp insert_mail(changeset), do: changeset |> Repo.insert
 
-    # to
-    # |> split
-    # |> find_candidates
-    # |> format_to
-    # |> Enum.map(&Task.async(Lyceum.Core.Mail, :do_send_mail, [&1, subject, body]))
-    # |> Enum.map(&Task.await(&1))
+  defp insert_to(mail, to) do
+    params = prepare_changeset_mail_candidate(mail, to)
 
-  def do_send_mail(to, subject, body) do
-    to
-    |> prepare_mail(subject, body)
-    |> Lyceum.Mailer.deliver
-  end
-  def save_emails(emails, _params) do
-    emails
-    |> Enum.map(fn({:ok, v}) -> v.id end)
-    |> IO.inspect
+    mail
+    |> Repo.preload(:to)
+    |> Ecto.Changeset.cast(params, [])
+    |> Ecto.Changeset.cast_assoc(:to)
+    |> Repo.update
+
   end
 
-  defp prepare_mail(to, subject, body) do
-    new()
-    |> to(to)
-    |> bcc(@bcc)
-    |> Swoosh.Email.from(@remitent)
-    |> subject(subject)
-    |> html_body(body)
+  defp prepare_changeset_mail_candidate(mail, to) do
+    mail_candidates = to
+    |> split
+    |> find_candidates
+    |> Enum.map(fn candidate ->
+      %{candidate_id: candidate.id, mail_id: mail.id}
+    end)
+
+    %{"mail_candidates" => mail_candidates}
+
   end
 
   defp split(ids), do: ids |> String.split(",") |> Enum.map(&to_int/1)
