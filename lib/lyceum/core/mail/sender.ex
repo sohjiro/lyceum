@@ -11,7 +11,6 @@ defmodule Lyceum.Core.Mail.Sender do
       |> from(@remitent)
       |> subject(mail.subject)
       |> html_body(mail.body)
-      |> text_body(mail.body)
       |> Lyceum.Mailer.deliver
     end
   end
