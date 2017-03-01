@@ -10,19 +10,19 @@ defmodule Lyceum.Core.Mail.Sender do
   end
 
   def sender(mail) do
-    for to <- mail.to do
-      GenServer.cast(__MODULE__, {:send_mail, mail, to})
-    end
+    GenServer.cast(__MODULE__, {:send_mail, mail})
   end
 
-  def handle_cast({:send_mail, mail, to}, state) do
-    new()
-    |> add_to_from(to)
-    |> bcc(@bcc)
-    |> from(@remitent)
-    |> subject(mail.subject)
-    |> html_body(mail.body)
-    |> Lyceum.Mailer.deliver
+  def handle_cast({:send_mail, mail}, state) do
+    for to <- mail.to do
+      new()
+      |> add_to_from(to)
+      |> bcc(@bcc)
+      |> from(@remitent)
+      |> subject(mail.subject)
+      |> html_body(mail.body)
+      |> Lyceum.Mailer.deliver
+    end
     {:noreply, state}
   end
 
