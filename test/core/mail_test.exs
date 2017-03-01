@@ -1,5 +1,6 @@
 defmodule Lyceum.Core.MailTest do
   use Lyceum.ModelCase
+  import Swoosh.TestAssertions
 
   alias Lyceum.Core.Mail
 
@@ -19,6 +20,9 @@ defmodule Lyceum.Core.MailTest do
       assert mail.bcc == "admin1@lyceum.com,admin2@lyceum.com"
       assert mail.body == "<p>enjoy</p>"
       assert length(mail.to) == 2
+      assert assert_email_sent [subject: "asdfasdf",
+                                bcc: "admin1@lyceum.com, admin2@lyceum.com",
+                                body: "<p>enjoy</p>"]
     end
   end
 

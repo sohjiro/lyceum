@@ -45,7 +45,7 @@ defmodule Lyceum.Core.Mail do
       %{candidate_id: candidate.id, mail_id: mail.id}
     end)
 
-    %{"to" => mail_candidates} |> IO.inspect
+    %{"to" => mail_candidates}
   end
 
   defp split(ids), do: ids |> String.split(",") |> Enum.map(&to_int/1)
