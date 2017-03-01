@@ -20,9 +20,9 @@ defmodule Lyceum.Core.MailTest do
       assert mail.bcc == "admin1@lyceum.com,admin2@lyceum.com"
       assert mail.body == "<p>enjoy</p>"
       assert length(mail.to) == 2
-      assert assert_email_sent [subject: "asdfasdf",
-                                bcc: "admin1@lyceum.com, admin2@lyceum.com",
-                                body: "<p>enjoy</p>"]
+      assert assert_email_sent [subject: "asdfasdf", bcc: [{"admin1", "admin1@lyceum.com"}, {"admin2", "admin2@lyceum.com"}], from: {"test", "test@lyceum.com"}]
+
+      #assert assert_email_sent [to: [{"Plant", "plant@zeppelin.com"}], body: "<p>enjoy</p>"]
     end
   end
 
