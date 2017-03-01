@@ -19,7 +19,7 @@ config :lyceum, Lyceum.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :lyceum, Lyceum.Mailer,
-  adapter: Swoosh.Adapters.Local
+  adapter: Swoosh.Adapters.Test
 
 config :lyceum,
   remitent: {"test", "test@lyceum.com"},

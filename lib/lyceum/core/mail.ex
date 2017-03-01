@@ -6,7 +6,9 @@ defmodule Lyceum.Core.Mail do
 
   def send_mail_flow(params) do
     with {:ok, %{update: mail}} <- insert_email(params) do
-      {:ok, Repo.preload(mail, :to)}
+      mail = Repo.preload(mail, :to)
+      Lyceum.Core.Mail.Sender.sender(mail)
+      {:ok, mail}
     end
   end
 
