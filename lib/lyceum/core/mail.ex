@@ -6,9 +6,11 @@ defmodule Lyceum.Core.Mail do
 
   def send_mail_flow(params) do
     with {:ok, %{update: mail}} <- insert_email(params) do
-      mail = Repo.preload(mail, [:to, [to: :candidate]])
+      mail = Repo.preload(mail, [:candidates])
       Lyceum.Core.Mail.Sender.sender(mail)
       {:ok, mail}
+    else
+      _error -> {:error, :bad_request}
     end
   end
 
@@ -29,6 +31,7 @@ defmodule Lyceum.Core.Mail do
 
   defp format_bcc, do: @bcc |> Stream.map(fn({_name, mail}) -> mail end) |> Enum.join(",")
 
+  defp insert_to(_mail, ""), do: {:error, :bad_request}
   defp insert_to(mail, to) do
     params = prepare_changeset_mail_candidate(mail, to)
 
