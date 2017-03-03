@@ -66,12 +66,16 @@ defmodule Lyceum.Core.Mail do
   end
 
   defp format_mail_candidate(mail, candidates) do
-    mail_candidates = candidates
-    |> Enum.map(fn(to) ->
-      %{candidate_id: to.id, mail_id: mail.id}
+    candidates
+    |> Enum.reduce(%{to: []}, fn(candidate, acc) ->
+      candidate
+      |> map_mail_candidate(mail)
+      |> format_response(acc)
     end)
-
-    %{"to" => mail_candidates}
   end
+
+  defp map_mail_candidate(candidate, mail), do: %{candidate_id: candidate.id, mail_id: mail.id}
+  defp format_response(mail_candidate, acc), do: %{to: [mail_candidate | acc.to]}
+
 
 end
