@@ -5,7 +5,7 @@ defmodule Lyceum.Core.Mail do
   @bcc Application.get_env(:lyceum, :bcc)
 
   def send_mail_flow(params) do
-    with {:ok, %{update: mail}} <- insert_email(params) do
+    with {:ok, %{update: mail}} <- email_flow(params) do
       mail = Repo.preload(mail, [:candidates])
       Lyceum.Core.Mail.Sender.sender(mail)
       {:ok, mail}
@@ -14,14 +14,38 @@ defmodule Lyceum.Core.Mail do
     end
   end
 
-  defp insert_email(params) do
+  defp email_flow(params) do
+    params
+    |> parse_to
+    |> find_candidates
+    |> insert_email(params)
+  end
+
+  defp parse_to(%{"to" => to}), do: to |> String.split(",") |> Enum.map(&to_int/1)
+
+  defp to_int(id) do
+    case Integer.parse(id) do
+      {value, _} -> value
+      :error -> :error
+    end
+  end
+
+  defp find_candidates(ids) do
+    case :error in ids do
+      true -> :error
+      _ -> Candidate |> where([c], c.id in ^ids) |> Repo.all
+    end
+  end
+
+  defp insert_email(to, params) when is_list(to) do
     mail_changeset = params |> prepare_changeset
 
     Multi.new
     |> Multi.insert(:mail, mail_changeset)
-    |> Multi.run(:update, &insert_to(&1.mail, params["to"]))
+    |> Multi.run(:update, &insert_to(&1.mail, to))
     |> Repo.transaction
   end
+  defp insert_email(_others, _params), do: {:error, :bad_request}
 
   defp prepare_changeset(params) do
     %Mail{}
@@ -31,9 +55,8 @@ defmodule Lyceum.Core.Mail do
 
   defp format_bcc, do: @bcc |> Stream.map(fn({_name, mail}) -> mail end) |> Enum.join(",")
 
-  defp insert_to(_mail, ""), do: {:error, :bad_request}
   defp insert_to(mail, to) do
-    params = prepare_changeset_mail_candidate(mail, to)
+    params = format_mail_candidate(mail, to)
 
     mail
     |> Repo.preload(:to)
@@ -42,25 +65,13 @@ defmodule Lyceum.Core.Mail do
     |> Repo.update
   end
 
-  defp prepare_changeset_mail_candidate(mail, to) do
-    mail_candidates = to
-    |> split
-    |> find_candidates
-    |> Enum.map(fn candidate ->
-      %{candidate_id: candidate.id, mail_id: mail.id}
+  defp format_mail_candidate(mail, candidates) do
+    mail_candidates = candidates
+    |> Enum.map(fn(to) ->
+      %{candidate_id: to.id, mail_id: mail.id}
     end)
 
     %{"to" => mail_candidates}
   end
 
-  defp split(ids), do: ids |> String.split(",") |> Enum.map(&to_int/1)
-
-  defp to_int(id) do
-    case Integer.parse(id) do
-      {value, _} -> value
-      :error -> :error
-    end
-  end
-
-  defp find_candidates(ids), do: Candidate |> where([c], c.id in ^ids) |> Repo.all
 end
