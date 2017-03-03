@@ -10,7 +10,8 @@ defmodule Lyceum.MailView do
       id: mail.id,
       subject: mail.subject,
       bcc: mail.bcc,
-      body: mail.body
+      body: mail.body,
+      to: Enum.map(mail.candidates, &(&1.email))
     }
   end
 
