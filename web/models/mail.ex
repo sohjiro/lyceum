@@ -7,6 +7,7 @@ defmodule Lyceum.Mail do
     field :body, :string
 
     has_many :to, Lyceum.MailCandidate
+    has_many :candidates, through: [:to, :candidate]
 
     timestamps()
   end
