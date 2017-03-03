@@ -20,6 +20,15 @@ defmodule Lyceum.Core.MailTest do
       assert mail.body == "<p>enjoy</p>"
       assert length(mail.to) == 2
     end
+
+    test "should reject email send" do
+      params = %{"to" => "",
+                 "subject" => "asdfasdf",
+                 "body" => "<p>enjoy</p>"
+                }
+
+      {:error, :bad_request} = Mail.send_mail_flow(params)
+    end
   end
 
 end
