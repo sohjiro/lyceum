@@ -29,6 +29,23 @@ defmodule Lyceum.Core.MailTest do
 
       {:error, :bad_request} = Mail.send_mail_flow(params)
     end
+
+    test "should send email to only available candidates" do
+      u1 = %Lyceum.Candidate{email: "kobain@nirvana.com", name: "Kurt"} |> Repo.insert!
+      u2 = %Lyceum.Candidate{email: "plant@zeppelin.com", name: "Plant"} |> Repo.insert!
+      params = %{"to" => "3",
+                 "subject" => "asdfasdf",
+                 "body" => "<p>enjoy</p>"
+                }
+
+      {:ok, mail} = Mail.send_mail_flow(params)
+
+      assert mail.id
+      assert mail.subject == "asdfasdf"
+      assert mail.bcc == "admin1@lyceum.com,admin2@lyceum.com"
+      assert mail.body == "<p>enjoy</p>"
+      assert length(mail.to) == 0
+    end
   end
 
 end
