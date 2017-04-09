@@ -4,9 +4,9 @@ BUILD_HOST="192.168.15.26"
 BUILD_USER="vagrant"
 BUILD_AT="/vagrant/build"
 
-STAGING_HOSTS="stage.myapp.com"
-STAGING_USER="web"
-DELIVER_TO="/home/web"
+STAGING_HOSTS="ec2-34-208-87-219.us-west-2.compute.amazonaws.com"
+STAGING_USER="ec2-user"
+DELIVER_TO="/home/ec2-user"
 
 # For *Phoenix* projects, symlink prod.secret.exs to our tmp source
 pre_erlang_get_and_update_deps() {
