@@ -3,7 +3,7 @@ defmodule Lyceum.Mixfile do
 
   def project do
     [app: :lyceum,
-     version: "0.0.1",
+     version: "1.0.0",
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -39,7 +39,7 @@ defmodule Lyceum.Mixfile do
      {:swoosh, "~> 0.6.0"},
      {:edeliver, "~> 1.4.0"},
      {:distillery, "~> 1.0", warn_missing: false, runtime: false},
-     {:cors_plug, "~> 1.1"}
+     {:cors_plug, "~> 1.2"}
    ]
   end
 
